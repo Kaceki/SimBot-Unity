@@ -1,0 +1,36 @@
+Initialize engine version: 5.2.2f1 (3757309da7e7)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: NVIDIA GeForce GT 240M     (ID=0xa34)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.199 seconds
+desktop: 1366x768 60Hz; virtual: 2646x1024 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\purba\Downloads\Roll-a-Ball (1)\Roll a Ball\Build\Roll a Ball_Data\Managed\System.dll (this message is harmless)
+NullReferenceException: Object reference not set to an instance of an object
+  at PlayerController.SetCountText () [0x00000] in <filename unknown>:0 
+  at PlayerController.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1f00 -> priority: 1 
+dotknelem drzwi
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+

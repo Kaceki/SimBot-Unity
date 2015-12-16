@@ -1,0 +1,148 @@
+fileFormatVersion: 2
+guid: d5e306023b39e194085e82c6d28f87f9
+timeCreated: 1448907164
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Amortyzator
+    100002: Amortyzator(2)
+    100004: Amortyzator(3)
+    100006: Amortyzator(4)
+    100008: Antenka
+    100010: Antenka(1)
+    100012: Antenka(2)
+    100014: Eye
+    100016: Eye(1)
+    100018: Head
+    100020: //RootNode
+    100022: HeadRing
+    100024: HeadRing(2)
+    100026: HeadRing(3)
+    100028: HeadRing(4)
+    100030: HeadRing(5)
+    400000: Amortyzator
+    400002: Amortyzator(2)
+    400004: Amortyzator(3)
+    400006: Amortyzator(4)
+    400008: Antenka
+    400010: Antenka(1)
+    400012: Antenka(2)
+    400014: Eye
+    400016: Eye(1)
+    400018: Head
+    400020: //RootNode
+    400022: HeadRing
+    400024: HeadRing(2)
+    400026: HeadRing(3)
+    400028: HeadRing(4)
+    400030: HeadRing(5)
+    2300000: Amortyzator
+    2300002: Amortyzator(2)
+    2300004: Amortyzator(3)
+    2300006: Amortyzator(4)
+    2300008: Antenka
+    2300010: Antenka(1)
+    2300012: Antenka(2)
+    2300014: Eye
+    2300016: Eye(1)
+    2300018: Head
+    2300020: HeadRing
+    2300022: HeadRing(2)
+    2300024: HeadRing(3)
+    2300026: HeadRing(4)
+    2300028: HeadRing(5)
+    3300000: Amortyzator
+    3300002: Amortyzator(2)
+    3300004: Amortyzator(3)
+    3300006: Amortyzator(4)
+    3300008: Antenka
+    3300010: Antenka(1)
+    3300012: Antenka(2)
+    3300014: Eye
+    3300016: Eye(1)
+    3300018: Head
+    3300020: HeadRing
+    3300022: HeadRing(2)
+    3300024: HeadRing(3)
+    3300026: HeadRing(4)
+    3300028: HeadRing(5)
+    4300000: Amortyzator
+    4300002: Amortyzator(2)
+    4300004: Amortyzator(3)
+    4300006: Amortyzator(4)
+    4300008: Antenka
+    4300010: Antenka(1)
+    4300012: Antenka(2)
+    4300014: Eye
+    4300016: Eye(1)
+    4300018: Head
+    4300020: HeadRing
+    4300022: HeadRing(2)
+    4300024: HeadRing(3)
+    4300026: HeadRing(4)
+    4300028: HeadRing(5)
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
