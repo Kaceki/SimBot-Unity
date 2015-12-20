@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private bool szafa_P, szafa_L, licznikTV;
     private bool szafka2, szafka3, szafka4, drzwi1, drzwi2, wanna, kran;
     private Shader shader;
+    public Material Lights, Lights_off;
     private CharacterController characterController;
 	private string pomieszczenie;
 
@@ -60,16 +61,18 @@ public class PlayerController : MonoBehaviour
 
             if (licznik1 == 0)
             {
-                shader = Shader.Find("Unlit/Transparent");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+               // shader = Shader.Find("Unlit/Transparent");
+               // other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights;
                 //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
                 other.gameObject.GetComponent<Light>().enabled = true;
                 licznik1 = 1;
             }
             else
             {
-                shader = Shader.Find("Standard");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                //shader = Shader.Find("Standard");
+                //other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights_off;
                 //other.transform.GetComponent<Renderer>().material.color = Color.white;
                 other.gameObject.GetComponent<Light>().enabled = false;
                 licznik1 = 0;
@@ -80,15 +83,19 @@ public class PlayerController : MonoBehaviour
         {
             if (licznik2 == 0)
             {
-                shader = Shader.Find("Unlit/Transparent");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                // shader = Shader.Find("Unlit/Transparent");
+                // other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights;
+                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
                 other.gameObject.GetComponent<Light>().enabled = true;
                 licznik2 = 1;
             }
             else
             {
-                shader = Shader.Find("Standard");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                //shader = Shader.Find("Standard");
+                //other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights_off;
+                //other.transform.GetComponent<Renderer>().material.color = Color.white;
                 other.gameObject.GetComponent<Light>().enabled = false;
                 licznik2 = 0;
             }
@@ -97,15 +104,19 @@ public class PlayerController : MonoBehaviour
         {
             if (licznik3 == 0)
             {
-                shader = Shader.Find("Unlit/Transparent");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                // shader = Shader.Find("Unlit/Transparent");
+                // other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights;
+                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
                 other.gameObject.GetComponent<Light>().enabled = true;
                 licznik3 = 1;
             }
             else
             {
-                shader = Shader.Find("Standard");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                //shader = Shader.Find("Standard");
+                //other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights_off;
+                //other.transform.GetComponent<Renderer>().material.color = Color.white;
                 other.gameObject.GetComponent<Light>().enabled = false;
                 licznik3 = 0;
             }
@@ -114,15 +125,19 @@ public class PlayerController : MonoBehaviour
         {
             if (licznik4 == 0)
             {
-                shader = Shader.Find("Unlit/Transparent");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                // shader = Shader.Find("Unlit/Transparent");
+                // other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights;
+                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
                 other.gameObject.GetComponent<Light>().enabled = true;
                 licznik4 = 1;
             }
             else
             {
-                shader = Shader.Find("Standard");
-                other.transform.GetComponent<Renderer>().material.shader = shader;
+                //shader = Shader.Find("Standard");
+                //other.transform.GetComponent<Renderer>().material.shader = shader;
+                other.transform.GetComponent<Renderer>().material = Lights_off;
+                //other.transform.GetComponent<Renderer>().material.color = Color.white;
                 other.gameObject.GetComponent<Light>().enabled = false;
                 licznik4 = 0;
             }
