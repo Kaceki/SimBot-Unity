@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,17 +26,17 @@ public class PlayerController : MonoBehaviour
     public Vector3 velocity;
     public Text Answer;
     public InputField field;
-	public GameObject Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
-	public Button button;
-
-
+	public GameObject sound,sound2,sound3,sound4,sound5, Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
+    public Button button;
+    public Dictionary<string, string> dictionary;
+    public Dictionary<string, string> type;
     void Start()
     {
 		pomieszczenie = "korytarz";
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         count = 0;
-        SetCountText();
+
         WinText.text = "";
         licznik1 = 1;
         licznik2 = 1;
@@ -40,8 +44,70 @@ public class PlayerController : MonoBehaviour
         licznik4 = 1;
         szafa_P = true;
         szafa_L = true;
-    }
+        dictionary = new Dictionary<string, string>();
+        type = new Dictionary<string, string>();
 
+            dictionary.Add("idź", "move"); type.Add("idź", "action");
+            dictionary.Add("idz", "move"); type.Add("idz", "action");
+            dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
+            dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
+            dictionary.Add("włącz", "turn on"); type.Add("włącz", "action");
+            dictionary.Add("wyłącz", "turn off"); type.Add("wyłącz", "action");
+            dictionary.Add("zapal", "turn on"); type.Add("zapal", "action");
+            dictionary.Add("zgaś", "turn off"); type.Add("zgaś", "action");
+            dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
+            dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
+            dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
+            dictionary.Add("korytarz", "kitchen"); type.Add("korytarz", "place");
+            dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
+            dictionary.Add("telewizor", "tv"); type.Add("telewizor", "object");
+            dictionary.Add("tv", "tv"); type.Add("tv", "object");
+            dictionary.Add("lampe", "lamp"); type.Add("lampe", "object");
+            dictionary.Add("lampa", "lamp"); type.Add("lampa", "object");
+            dictionary.Add("pierwszą", "first"); type.Add("pierwszą", "number");
+            dictionary.Add("drugą", "second"); type.Add("drugą", "number");
+            dictionary.Add("trzecią", "third"); type.Add("trzecią", "number");
+            dictionary.Add("czwartą", "fourth"); type.Add("czwartą", "number");
+            dictionary.Add("otwórz", "open"); type.Add("otwórz", "action");
+            dictionary.Add("zamknij", "close"); type.Add("zamknij", "action");
+            dictionary.Add("lodówki", "fridge"); type.Add("lodówki", "object");
+            dictionary.Add("lodówke", "fridge"); type.Add("lodówke", "object");
+            dictionary.Add("lampy", "lamp"); type.Add("lampy", "object");
+            dictionary.Add("światło", "light"); type.Add("światło", "object");
+            dictionary.Add("światło", "light"); type.Add("światło", "object");
+            dictionary.Add("światło", "light"); type.Add("światło", "object");
+            dictionary.Add("światło", "light"); type.Add("światło", "object");
+            dictionary.Add("światło", "light"); type.Add("światło", "object");
+            dictionary.Add("drzwi", "doors"); type.Add("drzwi", "object");
+            dictionary.Add("stołu", "table"); type.Add("stołu", "object");
+            dictionary.Add("stół", "table"); type.Add("stół", "object");
+            dictionary.Add("szafy", "wardrobe"); type.Add("szafy", "object");
+            dictionary.Add("szafe", "wardrobe"); type.Add("szafe", "object");
+            dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
+            dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
+            dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
+    }
+    void WhatToDo()
+    {
+        
+        string s = field.text;
+        string[] words = s.Split(' ');
+        foreach (string word in words)
+        {
+            string LowerWord = word.ToLower();
+            if (dictionary.ContainsKey(LowerWord))
+            {
+
+                WinText.text += dictionary[LowerWord] + "(" + type[LowerWord] + ")";
+                //Console.Write(dictionary[LowerWord]);
+                //Console.Write("(");
+                //Console.Write(type[LowerWord]);
+                //Console.Write(")");
+
+            }
+        }
+        field.text = "";
+    }
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -49,16 +115,53 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
-        move();
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            WhatToDo();
+        }
+        //move();
     }
+    void RandomSound()
+    {
+        int number = Random.Range(1, 5);
+        if (number == 1)
+        {
+            sound.GetComponent<AudioSource>().Play();
+        }
+        else
+        {
+            if (number == 2)
+            {
+                sound2.GetComponent<AudioSource>().Play();
+            }
+            else
+            {
+                if (number == 3)
+                {
+                    sound3.GetComponent<AudioSource>().Play();
+                }
+                else
+                {
+                    if (number == 4)
+                    {
+                        sound4.GetComponent<AudioSource>().Play();
+                    }
+                    else
+                    {
+                        sound5.GetComponent<AudioSource>().Play();
+                    }
+                }
+            }
+        }
 
+    }
     void OnCollisionEnter(Collision other)
     {
-
-
+        
+        
         if (other.gameObject.CompareTag("Lampa1"))
         {
-
+            RandomSound();
             if (licznik1 == 0)
             {
                // shader = Shader.Find("Unlit/Transparent");
@@ -81,6 +184,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Lampa2"))
         {
+            RandomSound();
             if (licznik2 == 0)
             {
                 // shader = Shader.Find("Unlit/Transparent");
@@ -102,6 +206,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Lampa3"))
         {
+            RandomSound();
             if (licznik3 == 0)
             {
                 // shader = Shader.Find("Unlit/Transparent");
@@ -123,6 +228,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Lampa4"))
         {
+            RandomSound();
             if (licznik4 == 0)
             {
                 // shader = Shader.Find("Unlit/Transparent");
@@ -319,26 +425,15 @@ public class PlayerController : MonoBehaviour
 		} */
 
     }
-
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pick Ups"))
         {
             other.gameObject.SetActive(false);
-            count = count + 1;
-            SetCountText();
+
+
         }
 
-    }
-
-    void SetCountText()
-    {
-        CountText.text = "Count: " + count.ToString();
-        if (count >= 12)
-        {
-            WinText.text = "You Win!";
-        }
     }
     void move()
     {
@@ -789,4 +884,5 @@ public class PlayerController : MonoBehaviour
 			}
 		}
     }
+
 }
