@@ -22,74 +22,91 @@ public class PlayerController : MonoBehaviour
     public Material Lights, Lights_off;
     private CharacterController characterController;
 	private string pomieszczenie;
-
+    int action, place;
     public Vector3 velocity;
     public Text Answer;
     public InputField field;
-	public GameObject sound,sound2,sound3,sound4,sound5, Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
+	public GameObject sound,sound2,sound3,sound4,sound5,sound6, Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
     public Button button;
     public Dictionary<string, string> dictionary;
     public Dictionary<string, string> type;
+    public List<string> lista;
+    string[] array= {"Kuchnia","Salon","Łazienka","Sypialnia"};
+
+    private bool active,KnowWhatToDo;
+    void LoadDictionary()
+    {
+
+        dictionary.Add("idź", "move"); type.Add("idź", "action");
+        dictionary.Add("idz", "move"); type.Add("idz", "action");
+        dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
+        dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
+        dictionary.Add("włącz", "turn on"); type.Add("włącz", "action");
+        dictionary.Add("wyłącz", "turn off"); type.Add("wyłącz", "action");
+        dictionary.Add("zapal", "turn on"); type.Add("zapal", "action");
+        dictionary.Add("zgaś", "turn off"); type.Add("zgaś", "action");
+        dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
+        dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
+        dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
+        dictionary.Add("korytarz", "kitchen"); type.Add("korytarz", "place");
+        dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
+        dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
+        dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
+        dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
+        dictionary.Add("tv", "TV"); type.Add("tv", "object");
+        dictionary.Add("lampe", "Lampa1"); type.Add("lampe", "object");
+        dictionary.Add("lampe w salonie", "Lampa3"); type.Add("lampe w salonie", "object");
+        dictionary.Add("lampe w łazience", "Lampa2"); type.Add("lampe w łazience", "object");
+        dictionary.Add("lampe w sypialni", "Lampa4"); type.Add("lampe w sypialni", "object");
+        dictionary.Add("lampe na korytarzu", "Lampa1"); type.Add("lampe na korytarzu", "object");
+        dictionary.Add("lampa", "lamp"); type.Add("lampa", "object");
+        dictionary.Add("pierwszą", "first"); type.Add("pierwszą", "number");
+        dictionary.Add("drugą", "second"); type.Add("drugą", "number");
+        dictionary.Add("trzecią", "third"); type.Add("trzecią", "number");
+        dictionary.Add("czwartą", "fourth"); type.Add("czwartą", "number");
+        dictionary.Add("otwórz", "open"); type.Add("otwórz", "action");
+        dictionary.Add("zamknij", "close"); type.Add("zamknij", "action");
+        dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
+        dictionary.Add("lodówke", "Fridge"); type.Add("lodówke", "object");
+        dictionary.Add("lampy", "lamp"); type.Add("lampy", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("drzwi", "doors"); type.Add("drzwi", "object");
+        dictionary.Add("stołu", "table"); type.Add("stołu", "object");
+        dictionary.Add("stół", "table"); type.Add("stół", "object");
+        dictionary.Add("szafy", "wardrobe"); type.Add("szafy", "object");
+        dictionary.Add("szafe", "wardrobe"); type.Add("szafe", "object");
+        dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
+        dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
+        dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
+    }
     void Start()
     {
-		pomieszczenie = "korytarz";
+		pomieszczenie = "Korytarz";
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         count = 0;
-
         WinText.text = "";
-        licznik1 = 1;
-        licznik2 = 1;
-        licznik3 = 1;
-        licznik4 = 1;
+        licznik1 = 0;
+        licznik2 = 0;
+        licznik3 = 0;
+        licznik4 = 0;
         szafa_P = true;
         szafa_L = true;
+        active = false;
+        KnowWhatToDo = false;
         dictionary = new Dictionary<string, string>();
         type = new Dictionary<string, string>();
+        LoadDictionary();
 
-            dictionary.Add("idź", "move"); type.Add("idź", "action");
-            dictionary.Add("idz", "move"); type.Add("idz", "action");
-            dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
-            dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
-            dictionary.Add("włącz", "turn on"); type.Add("włącz", "action");
-            dictionary.Add("wyłącz", "turn off"); type.Add("wyłącz", "action");
-            dictionary.Add("zapal", "turn on"); type.Add("zapal", "action");
-            dictionary.Add("zgaś", "turn off"); type.Add("zgaś", "action");
-            dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
-            dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
-            dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
-            dictionary.Add("korytarz", "kitchen"); type.Add("korytarz", "place");
-            dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
-            dictionary.Add("telewizor", "tv"); type.Add("telewizor", "object");
-            dictionary.Add("tv", "tv"); type.Add("tv", "object");
-            dictionary.Add("lampe", "lamp"); type.Add("lampe", "object");
-            dictionary.Add("lampa", "lamp"); type.Add("lampa", "object");
-            dictionary.Add("pierwszą", "first"); type.Add("pierwszą", "number");
-            dictionary.Add("drugą", "second"); type.Add("drugą", "number");
-            dictionary.Add("trzecią", "third"); type.Add("trzecią", "number");
-            dictionary.Add("czwartą", "fourth"); type.Add("czwartą", "number");
-            dictionary.Add("otwórz", "open"); type.Add("otwórz", "action");
-            dictionary.Add("zamknij", "close"); type.Add("zamknij", "action");
-            dictionary.Add("lodówki", "fridge"); type.Add("lodówki", "object");
-            dictionary.Add("lodówke", "fridge"); type.Add("lodówke", "object");
-            dictionary.Add("lampy", "lamp"); type.Add("lampy", "object");
-            dictionary.Add("światło", "light"); type.Add("światło", "object");
-            dictionary.Add("światło", "light"); type.Add("światło", "object");
-            dictionary.Add("światło", "light"); type.Add("światło", "object");
-            dictionary.Add("światło", "light"); type.Add("światło", "object");
-            dictionary.Add("światło", "light"); type.Add("światło", "object");
-            dictionary.Add("drzwi", "doors"); type.Add("drzwi", "object");
-            dictionary.Add("stołu", "table"); type.Add("stołu", "object");
-            dictionary.Add("stół", "table"); type.Add("stół", "object");
-            dictionary.Add("szafy", "wardrobe"); type.Add("szafy", "object");
-            dictionary.Add("szafe", "wardrobe"); type.Add("szafe", "object");
-            dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
-            dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
-            dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
     }
     void WhatToDo()
     {
-        
+        action = 0;
+        lista = new List<string>();
         string s = field.text;
         string[] words = s.Split(' ');
         foreach (string word in words)
@@ -97,16 +114,36 @@ public class PlayerController : MonoBehaviour
             string LowerWord = word.ToLower();
             if (dictionary.ContainsKey(LowerWord))
             {
-
-                WinText.text += dictionary[LowerWord] + "(" + type[LowerWord] + ")";
-                //Console.Write(dictionary[LowerWord]);
-                //Console.Write("(");
-                //Console.Write(type[LowerWord]);
-                //Console.Write(")");
-
+                if (type[LowerWord] == "action")
+                {
+                    action = +1;
+                }
+                else
+                {
+                    lista.Add(dictionary[LowerWord]);
+                }
+                // WinText.text += dictionary[LowerWord] + "(" + type[LowerWord] + ")";
             }
+
         }
+        if(action > 0)
+        {
+            KnowWhatToDo = true;
+            sound6.GetComponent<AudioSource>().Play();
+        }
+        else
+        {
+            HaveNoIdea();
+        }
+        
         field.text = "";
+    }
+    void Do()
+    {
+        if (action !=0)
+        {
+            move2(lista.First());
+        }
     }
     void FixedUpdate()
     {
@@ -114,11 +151,31 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
         rb.AddForce(movement * speed);
-        if (Input.GetKeyUp(KeyCode.Return))
+        if (active)
         {
-            WhatToDo();
+            if (KnowWhatToDo)
+            {
+                Do();
+            }
+            else
+            {
+                WhatToDo();
+            }
+            
+            //move2(field.text);
         }
+        else
+        {
+            if (Input.GetKeyUp(KeyCode.Return))
+            {
+                active = true;
+                
+            }
+        }
+
+        //move2(field.text);
         //move();
     }
     void RandomSound()
@@ -155,275 +212,293 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    void HaveNoIdea()
+    {
+        sound5.GetComponent<AudioSource>().Play();
+    }
     void OnCollisionEnter(Collision other)
     {
-        
-        
-        if (other.gameObject.CompareTag("Lampa1"))
-        {
-            RandomSound();
-            if (licznik1 == 0)
-            {
-               // shader = Shader.Find("Unlit/Transparent");
-               // other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights;
-                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
-                other.gameObject.GetComponent<Light>().enabled = true;
-                licznik1 = 1;
-            }
-            else
-            {
-                //shader = Shader.Find("Standard");
-                //other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights_off;
-                //other.transform.GetComponent<Renderer>().material.color = Color.white;
-                other.gameObject.GetComponent<Light>().enabled = false;
-                licznik1 = 0;
-            }
-        }
 
-        if (other.gameObject.CompareTag("Lampa2"))
+        if (KnowWhatToDo)
         {
-            RandomSound();
-            if (licznik2 == 0)
+            if (other.gameObject.CompareTag("Lampa1"))
             {
-                // shader = Shader.Find("Unlit/Transparent");
-                // other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights;
-                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
-                other.gameObject.GetComponent<Light>().enabled = true;
-                licznik2 = 1;
-            }
-            else
-            {
-                //shader = Shader.Find("Standard");
-                //other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights_off;
-                //other.transform.GetComponent<Renderer>().material.color = Color.white;
-                other.gameObject.GetComponent<Light>().enabled = false;
-                licznik2 = 0;
-            }
-        }
-        if (other.gameObject.CompareTag("Lampa3"))
-        {
-            RandomSound();
-            if (licznik3 == 0)
-            {
-                // shader = Shader.Find("Unlit/Transparent");
-                // other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights;
-                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
-                other.gameObject.GetComponent<Light>().enabled = true;
-                licznik3 = 1;
-            }
-            else
-            {
-                //shader = Shader.Find("Standard");
-                //other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights_off;
-                //other.transform.GetComponent<Renderer>().material.color = Color.white;
-                other.gameObject.GetComponent<Light>().enabled = false;
-                licznik3 = 0;
-            }
-        }
-        if (other.gameObject.CompareTag("Lampa4"))
-        {
-            RandomSound();
-            if (licznik4 == 0)
-            {
-                // shader = Shader.Find("Unlit/Transparent");
-                // other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights;
-                //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
-                other.gameObject.GetComponent<Light>().enabled = true;
-                licznik4 = 1;
-            }
-            else
-            {
-                //shader = Shader.Find("Standard");
-                //other.transform.GetComponent<Renderer>().material.shader = shader;
-                other.transform.GetComponent<Renderer>().material = Lights_off;
-                //other.transform.GetComponent<Renderer>().material.color = Color.white;
-                other.gameObject.GetComponent<Light>().enabled = false;
-                licznik4 = 0;
-            }
-        }
-        if (other.gameObject.CompareTag("Wardrobe_R"))
-        {
-            if (szafa_P == false)
-            {
-                other.transform.Rotate(0, 90, 0);
-                other.transform.Translate(+0.6f, 0f, -0.6f);
-                szafa_P = true;
-            }
-            else if (szafa_P == true)
-            {
-                other.transform.Rotate(0, 270, 0);
-                other.transform.Translate(+0.6f, 0f, +0.6f);
-                szafa_P = false;
-            }
-        }
-        if (other.gameObject.CompareTag("Wardrobe_L"))
-        {
-            if (szafa_L == false)
-            {
-                other.transform.Rotate(0, 90, 0);
-                other.transform.Translate(+0.6f, 0f, +0.6f);
-                szafa_L = true;
-            }
-            else if (szafa_L == true)
-            {
-                other.transform.Rotate(0, 270, 0);
-                other.transform.Translate(-0.6f, 0f, +0.6f);
-                szafa_L = false;
-            }
-        }
-        if (other.gameObject.CompareTag("TV"))
-        {
-            if (licznikTV == false)
-            {
-                other.transform.GetComponent<Renderer>().material.color = Color.white;
-                other.gameObject.GetComponent<Light>().enabled = true;
-                licznikTV = true;
-            }
-            else if (licznikTV == true)
-            {
-                other.transform.GetComponent<Renderer>().material.color = Color.black;
-                other.gameObject.GetComponent<Light>().enabled = false;
-                licznikTV = false;
-            }
-        }
-        if (other.gameObject.CompareTag("Cupboard2"))
-        {
-
-            if (szafka2 == false)
-            {
-                other.transform.Translate(0, 0, -0.4f);
-                szafka2 = true;
-            }
-            else
-            {
-                other.transform.Translate(0, 0, 0.4f);
-                szafka2 = false;
-            }
-        }
-        if (other.gameObject.CompareTag("Cupboard3"))
-        {
-
-            if (szafka3 == false)
-            {
-                other.transform.Translate(0, 0, -0.4f);
-                szafka3 = true;
-            }
-            else
-            {
-                other.transform.Translate(0, 0, 0.4f);
-                szafka3 = false;
-            }
-        }
-        if (other.gameObject.CompareTag("Cupboard4"))
-        {
-
-            if (szafka4 == false)
-            {
-                other.transform.Translate(0, 0, -0.4f);
-                szafka4 = true;
-            }
-            else
-            {
-                other.transform.Translate(0, 0, 0.4f);
-                szafka4 = false;
-            }
-        }
-        if (other.gameObject.CompareTag("Bath"))
-        {
-            if (wanna == false)
-            {
-                Woda_kran.gameObject.SetActive(true);
-                Woda.gameObject.SetActive(true);
-                Woda.transform.Translate(0, +0.3f, 0);
-                wanna = true;
-            }
-            else if (wanna == true)
-            {
-                Woda_kran.gameObject.SetActive(false);
-                Woda.gameObject.SetActive(false);
-                Woda.transform.Translate(0, -0.3f, 0);
-                wanna = false;
+                RandomSound();
+                if (licznik1 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik1 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik1 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
             }
 
-        }
-        if (other.gameObject.CompareTag("Door1"))
-        {
-            Debug.Log("dotknelem drzwi");
-            if (drzwi1 == false)
+            if (other.gameObject.CompareTag("Lampa2"))
             {
-                other.transform.Rotate(0, 90, 0);
-                other.transform.Translate(-0.8f, 0f, +0.85f);
-                drzwi1 = true;
+                RandomSound();
+                if (licznik2 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik2 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik2 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
             }
-            else if (drzwi1 == true)
+            if (other.gameObject.CompareTag("Lampa3"))
             {
-                other.transform.Rotate(0, 270, 0);
-                other.transform.Translate(-0.85f, 0f, -0.8f);
-                drzwi1 = false;
+                RandomSound();
+                if (licznik3 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik3 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik3 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
             }
-        }
-        if (other.gameObject.CompareTag("Door2"))
-        {
-            Debug.Log("dotknelem drzwi");
-            if (drzwi2 == false)
+            if (other.gameObject.CompareTag("Lampa4"))
             {
-                other.transform.Rotate(0, 90, 0);
-                other.transform.Translate(-0.8f, 0f, +0.85f);
-                drzwi2 = true;
+                RandomSound();
+                if (licznik4 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik4 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik4 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
             }
-            else if (drzwi2 == true)
+            if (other.gameObject.CompareTag("Wardrobe_R"))
             {
-                other.transform.Rotate(0, 270, 0);
-                other.transform.Translate(-0.85f, 0f, -0.8f);
-                drzwi2 = false;
+                if (szafa_P == false)
+                {
+                    other.transform.Rotate(0, 90, 0);
+                    other.transform.Translate(+0.6f, 0f, -0.6f);
+                    szafa_P = true;
+                }
+                else if (szafa_P == true)
+                {
+                    other.transform.Rotate(0, 270, 0);
+                    other.transform.Translate(+0.6f, 0f, +0.6f);
+                    szafa_P = false;
+                }
             }
-        }
-		/*
-        if (other.gameObject.CompareTag("Coverlet on"))
-        {
-            other.gameObject.SetActive(false);
-            koldra_n.gameObject.SetActive(true);
-        }
-        if (other.gameObject.CompareTag("Coverlet off"))
-        {
-            other.gameObject.SetActive(false);
-            koldra_t.gameObject.SetActive(true);
-        } */
-        if (other.gameObject.CompareTag("Washbasin"))
-        {
-            Debug.Log("to kran");
-            if ( kran == false)
+            if (other.gameObject.CompareTag("Wardrobe_L"))
             {
-                woda_kran_lazienka.gameObject.SetActive(true);
-                kran = true;
+                if (szafa_L == false)
+                {
+                    other.transform.Rotate(0, 90, 0);
+                    other.transform.Translate(+0.6f, 0f, +0.6f);
+                    szafa_L = true;
+                }
+                else if (szafa_L == true)
+                {
+                    other.transform.Rotate(0, 270, 0);
+                    other.transform.Translate(-0.6f, 0f, +0.6f);
+                    szafa_L = false;
+                }
             }
-            else if (kran == true)
+            if (other.gameObject.CompareTag("TV"))
             {
-                woda_kran_lazienka.gameObject.SetActive(false);
-                kran = false;
+                if (licznikTV == false)
+                {
+                    other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznikTV = true;
+                }
+                else if (licznikTV == true)
+                {
+                    other.transform.GetComponent<Renderer>().material.color = Color.black;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznikTV = false;
+                }
+                active = false;
+                KnowWhatToDo = false;
             }
-        }
+            if (other.gameObject.CompareTag("Cupboard2"))
+            {
 
-		/*if(other.gameObject.CompareTag("Dayili Room"))
-		   {
-			if(field.text.Equals("tv") || field.text.Equals("lodówka"))
-			{
-			pomieszczenie = "pokoj dzienny";
+                if (szafka2 == false)
+                {
+                    other.transform.Translate(0, 0, -0.4f);
+                    szafka2 = true;
+                }
+                else
+                {
+                    other.transform.Translate(0, 0, 0.4f);
+                    szafka2 = false;
+                }
+            }
+            if (other.gameObject.CompareTag("Cupboard3"))
+            {
 
-			}
-			else
-			{
-				//pomieszczenie = "korytarz";
-			}
-		} */
+                if (szafka3 == false)
+                {
+                    other.transform.Translate(0, 0, -0.4f);
+                    szafka3 = true;
+                }
+                else
+                {
+                    other.transform.Translate(0, 0, 0.4f);
+                    szafka3 = false;
+                }
+            }
+            if (other.gameObject.CompareTag("Cupboard4"))
+            {
 
+                if (szafka4 == false)
+                {
+                    other.transform.Translate(0, 0, -0.4f);
+                    szafka4 = true;
+                }
+                else
+                {
+                    other.transform.Translate(0, 0, 0.4f);
+                    szafka4 = false;
+                }
+            }
+            if (other.gameObject.CompareTag("Bath"))
+            {
+                if (wanna == false)
+                {
+                    Woda_kran.gameObject.SetActive(true);
+                    Woda.gameObject.SetActive(true);
+                    Woda.transform.Translate(0, +0.3f, 0);
+                    wanna = true;
+                }
+                else if (wanna == true)
+                {
+                    Woda_kran.gameObject.SetActive(false);
+                    Woda.gameObject.SetActive(false);
+                    Woda.transform.Translate(0, -0.3f, 0);
+                    wanna = false;
+                }
+                active = false;
+                KnowWhatToDo = false;
+            }
+            if (other.gameObject.CompareTag("Door1"))
+            {
+                Debug.Log("dotknelem drzwi");
+                if (drzwi1 == false)
+                {
+                    other.transform.Rotate(0, 90, 0);
+                    other.transform.Translate(-0.8f, 0f, +0.85f);
+                    drzwi1 = true;
+                }
+                else if (drzwi1 == true)
+                {
+                    other.transform.Rotate(0, 270, 0);
+                    other.transform.Translate(-0.85f, 0f, -0.8f);
+                    drzwi1 = false;
+                }
+            }
+            if (other.gameObject.CompareTag("Door2"))
+            {
+                Debug.Log("dotknelem drzwi");
+                if (drzwi2 == false)
+                {
+                    other.transform.Rotate(0, 90, 0);
+                    other.transform.Translate(-0.8f, 0f, +0.85f);
+                    drzwi2 = true;
+                }
+                else if (drzwi2 == true)
+                {
+                    other.transform.Rotate(0, 270, 0);
+                    other.transform.Translate(-0.85f, 0f, -0.8f);
+                    drzwi2 = false;
+                }
+            }
+            /*
+            if (other.gameObject.CompareTag("Coverlet on"))
+            {
+                other.gameObject.SetActive(false);
+                koldra_n.gameObject.SetActive(true);
+            }
+            if (other.gameObject.CompareTag("Coverlet off"))
+            {
+                other.gameObject.SetActive(false);
+                koldra_t.gameObject.SetActive(true);
+            } */
+            if (other.gameObject.CompareTag("Washbasin"))
+            {
+                Debug.Log("to kran");
+                if (kran == false)
+                {
+                    woda_kran_lazienka.gameObject.SetActive(true);
+                    kran = true;
+                }
+                else if (kran == true)
+                {
+                    woda_kran_lazienka.gameObject.SetActive(false);
+                    kran = false;
+                }
+                active = false;
+                KnowWhatToDo = false;
+            }
+
+            /*if(other.gameObject.CompareTag("Dayili Room"))
+               {
+                if(field.text.Equals("tv") || field.text.Equals("lodówka"))
+                {
+                pomieszczenie = "pokoj dzienny";
+
+                }
+                else
+                {
+                    //pomieszczenie = "korytarz";
+                }
+            } */
+        }
     }
     void OnTriggerEnter(Collider other)
     {
@@ -884,5 +959,62 @@ public class PlayerController : MonoBehaviour
 			}
 		}
     }
+    void move2(string where)
+    {
+        WinText.text = GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie;
+        if (pomieszczenie.Equals(GameObject.FindGameObjectWithTag(where).transform.parent.tag))
+        {
+            Vector3 direction = GameObject.FindGameObjectWithTag(where).transform.position - transform.position;
+            if (Vector3.Magnitude(direction) > 1)
+            {
+                rb.AddForceAtPosition(direction * 5, GameObject.FindGameObjectWithTag(where).transform.position);
+            }
+        }
+        else {
 
-}
+            if (array.Contains(pomieszczenie) && array.Contains(GameObject.FindGameObjectWithTag(where).transform.parent.tag))
+            {
+                Vector3 direction = GameObject.FindGameObjectWithTag("Korytarz-"
+                    + pomieszczenie).transform.position - transform.position;
+                if (Vector3.Magnitude(direction) > 1)
+                {
+                    rb.AddForceAtPosition(direction * 5,
+                   GameObject.FindGameObjectWithTag("Korytarz-"
+                    + pomieszczenie).transform.position);
+                }
+                if (Vector3.SqrMagnitude(direction) < 3)
+                {
+                    pomieszczenie = "Korytarz";
+                    WinText.text = pomieszczenie;
+                }
+            }
+
+            else
+            {
+                Vector3 direction3 = GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
+                  "-" + pomieszczenie).transform.position - transform.position;
+                if (Vector3.Magnitude(direction3) > 1)
+                {
+                    rb.AddForceAtPosition(direction3 * 5,
+                   GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
+                   "-" + pomieszczenie).transform.position);
+                }
+                if (Vector3.SqrMagnitude(direction3) < 3)
+                {
+                    pomieszczenie = GameObject.FindGameObjectWithTag(where).transform.parent.tag;
+                    WinText.text = pomieszczenie;
+                }
+
+            }
+        }
+            //move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+
+            /*if (GameObject.FindGameObjectWithTag(where).transform.parent.tag != "Korytarz" && pomieszczenie != "Korytarz")
+            {
+               move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+            }
+            else {
+                move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+            }*/
+        }   
+    }
