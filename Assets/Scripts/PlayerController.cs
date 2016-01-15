@@ -161,17 +161,24 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                WhatToDo();
+               // WhatToDo();
             }
-            
+
             //move2(field.text);
         }
         else
         {
             if (Input.GetKeyUp(KeyCode.Return))
             {
-                active = true;
-                
+                WhatToDo();
+                if (action > 0)
+                {
+                    active = true;
+                }
+                else
+                {
+                    HaveNoIdea();
+                }
             }
         }
 

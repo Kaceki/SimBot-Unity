@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-    public GameObject player;
+    /*public GameObject player;
     private Vector3 offset;
 
 	// Use this for initialization
@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour {
 	void LateUpdate () {
         transform.position = player.transform.position + offset;
 
-    }/*
+    }*/
 	public float turnSpeed = 4.0f;
 	public GameObject player;
 	
@@ -27,10 +27,13 @@ public class CameraController : MonoBehaviour {
 	
 	void LateUpdate()
 	{
-		offset = Quaternion.AngleAxis (Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;
- 
-		transform.position = player.transform.position + offset;
-		transform.LookAt(player.transform.position);
-	}*/
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;
+
+            transform.position = player.transform.position + offset;
+            transform.LookAt(player.transform.position);
+        }
+	}
 }
 
