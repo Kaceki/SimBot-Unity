@@ -12,7 +12,20 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public Text CountText;
     public Text WinText;
-
+    
+    private static PlayerController instance = null;
+    public static PlayerController SharedInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new PlayerController();
+            }
+            return instance;
+        }
+    }
+    public Vector3 dir;
     private Rigidbody rb;
     private int count;
     private int licznik1, licznik2, licznik3, licznik4;
@@ -31,7 +44,9 @@ public class PlayerController : MonoBehaviour
     public Dictionary<string, string> dictionary;
     public Dictionary<string, string> type;
     public List<string> lista;
-    string[] array= {"Kuchnia","Salon","Łazienka","Sypialnia"};
+    string[] array = { "Kuchnia", "Salon", "Łazienka", "Sypialnia" };
+    string[] array2 = { "kitchen", "dinneroom", "bathroom", "bedroom", "corridor" };
+    public string destination;
 
     private bool active,KnowWhatToDo;
     void LoadDictionary()
@@ -98,6 +113,7 @@ public class PlayerController : MonoBehaviour
         szafa_L = true;
         active = false;
         KnowWhatToDo = false;
+        dir = new Vector3();
         dictionary = new Dictionary<string, string>();
         type = new Dictionary<string, string>();
         LoadDictionary();
@@ -149,9 +165,7 @@ public class PlayerController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
         rb.AddForce(movement * speed);
         if (active)
         {
@@ -179,6 +193,32 @@ public class PlayerController : MonoBehaviour
                 {
                     HaveNoIdea();
                 }
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.F2))
+        {
+            if (GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled.Equals(true))
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = false;
+            }
+            else
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = true;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled.Equals(true))
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = false;
+            }
+            else
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
             }
         }
 
@@ -505,6 +545,41 @@ public class PlayerController : MonoBehaviour
                     //pomieszczenie = "korytarz";
                 }
             } */
+            if (other.gameObject.CompareTag("kitchen") && destination.Equals("kitchen"))
+            {
+                RandomSound();
+                active = false;
+                KnowWhatToDo = false;
+                destination = "";
+            }
+            if (other.gameObject.CompareTag("corridor") && destination.Equals("corridor"))
+            {
+                RandomSound();
+                active = false;
+                KnowWhatToDo = false;
+                destination = "";
+            }
+            if (other.gameObject.CompareTag("bedroom") && destination.Equals("bedroom"))
+            {
+                RandomSound();
+                active = false;
+                KnowWhatToDo = false;
+                destination = "";
+            }
+            if (other.gameObject.CompareTag("bathroom") && destination.Equals("bathroom"))
+            {
+                RandomSound();
+                active = false;
+                KnowWhatToDo = false;
+                destination = "";
+            }
+            if (other.gameObject.CompareTag("dinnerroom") && destination.Equals("dinnerroom"))
+            {
+                RandomSound();
+                active = false;
+                KnowWhatToDo = false;
+                destination = "";
+            }
         }
     }
     void OnTriggerEnter(Collider other)
@@ -968,6 +1043,7 @@ public class PlayerController : MonoBehaviour
     }
     void move2(string where)
     {
+        if (array2.Contains(where)) { destination = where;  }
         WinText.text = GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie;
         if (pomieszczenie.Equals(GameObject.FindGameObjectWithTag(where).transform.parent.tag))
         {
@@ -976,6 +1052,8 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForceAtPosition(direction * 5, GameObject.FindGameObjectWithTag(where).transform.position);
             }
+            dir = direction;
+
         }
         else {
 
@@ -994,34 +1072,39 @@ public class PlayerController : MonoBehaviour
                     pomieszczenie = "Korytarz";
                     WinText.text = pomieszczenie;
                 }
+                dir = direction;
             }
+
 
             else
             {
-                Vector3 direction3 = GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
+                Vector3 direction = GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
                   "-" + pomieszczenie).transform.position - transform.position;
-                if (Vector3.Magnitude(direction3) > 1)
+                if (Vector3.Magnitude(direction) > 1)
                 {
-                    rb.AddForceAtPosition(direction3 * 5,
+                    rb.AddForceAtPosition(direction * 5,
                    GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
                    "-" + pomieszczenie).transform.position);
                 }
-                if (Vector3.SqrMagnitude(direction3) < 3)
+                if (Vector3.SqrMagnitude(direction) < 3)
                 {
                     pomieszczenie = GameObject.FindGameObjectWithTag(where).transform.parent.tag;
                     WinText.text = pomieszczenie;
                 }
+                dir = direction;
 
             }
+            
+
         }
-            //move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+        //move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
 
-            /*if (GameObject.FindGameObjectWithTag(where).transform.parent.tag != "Korytarz" && pomieszczenie != "Korytarz")
-            {
-               move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
-            }
-            else {
-                move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
-            }*/
-        }   
+        /*if (GameObject.FindGameObjectWithTag(where).transform.parent.tag != "Korytarz" && pomieszczenie != "Korytarz")
+        {
+           move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+        }
+        else {
+            move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+        }*/
+    }   
     }
