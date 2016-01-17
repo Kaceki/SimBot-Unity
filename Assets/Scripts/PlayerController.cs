@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
     }
     void WhatToDo()
     {
+        // w tej funkcji rozklada zdanie na wyrazy które rozumie, zlicza ilość czasowników, i do listy dodaje rozpoznane obiekty
         action = 0;
         lista = new List<string>();
         string s = field.text;
@@ -142,10 +143,12 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        // sprawdza czy dostał czasowniki (w zasadzie active i KnowWhatToDo odpowiadają za to samo i można zostawić tylko jedno
         if(action > 0)
         {
             KnowWhatToDo = true;
             sound6.GetComponent<AudioSource>().Play();
+            active = true;
         }
         else
         {
@@ -156,6 +159,9 @@ public class PlayerController : MonoBehaviour
     }
     void Do()
     {
+        // tej funkcji narazie nie rozwinałem, 
+        //powinna odpowiadać za to że np jak dostaniemy 3 czasowniki w zdaniu to wykona trzy polecenia 
+        //działa dla zdań pojedynczych
         if (action !=0)
         {
             move2(lista.First());
@@ -167,15 +173,18 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
-        if (active)
+        // Sprawdza czy już dostał polecenie
+        // if(active)
+        if (KnowWhatToDo)
         {
+            //ten if jest w zasadzie nie potrzebny
             if (KnowWhatToDo)
             {
                 Do();
             }
             else
             {
-               // WhatToDo();
+                // WhatToDo();
             }
 
             //move2(field.text);
@@ -184,17 +193,22 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Return))
             {
+                //po enterze dostaje z inputa text
+                //sprawdza czy rozumie podane mu zdanie 
                 WhatToDo();
-                if (action > 0)
+                /*if (action > 0)
                 {
+                    KnowWhatToDo = true;
                     active = true;
+                    sound6.GetComponent<AudioSource>().Play();
                 }
                 else
                 {
                     HaveNoIdea();
-                }
+                }*/
             }
         }
+        // Tu są dodatkowe ficzery - kamera z pierwszej osoby i latarka pod F1 i F2
         if (Input.GetKeyUp(KeyCode.F2))
         {
             if (GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled.Equals(true))
