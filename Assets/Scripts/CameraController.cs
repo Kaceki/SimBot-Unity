@@ -27,6 +27,8 @@ public class CameraController : MonoBehaviour {
 	
 	void LateUpdate()
 	{
+        transform.position = player.transform.position + offset;
+
         if (Input.GetKey(KeyCode.Mouse1))
         {
             offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;

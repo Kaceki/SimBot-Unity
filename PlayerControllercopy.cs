@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     }
     public Vector3 dir;
     private Rigidbody rb;
+    private int count;
     private int licznik1, licznik2, licznik3, licznik4;
     private bool szafa_P, szafa_L, licznikTV;
     private bool szafka2, szafka3, szafka4, drzwi1, drzwi2, wanna, kran;
@@ -36,15 +37,12 @@ public class PlayerController : MonoBehaviour
 	private string pomieszczenie;
     int action, place;
     public Vector3 velocity;
-    public string turn;
+    public string temp,turn;
     public Text Answer;
     public InputField field;
-	public GameObject sound,sound2,sound3,sound4,sound5,sound6,
-        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv,
-        lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, 
-        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
+	public GameObject sound,sound2,sound3,sound4,sound5,sound6, Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
     public Button button;
-    public Dictionary<string, string> dictionary, type ;
+    public Dictionary<string, string> dictionary, type, turned;
     public List<string> lista;
     string[] array = { "Kuchnia", "Salon", "Łazienka", "Sypialnia" };
     string[] array2 = { "kitchen", "dinneroom", "bathroom", "bedroom", "corridor" };
@@ -78,7 +76,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
         dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
         dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
-        dictionary.Add("korytarz", "corridor"); type.Add("korytarz", "place");
+        dictionary.Add("korytarz", "kitchen"); type.Add("korytarz", "place");
         dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
         dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
         dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
@@ -112,12 +110,18 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
         dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
         dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
+        turned.Add("lampe", "ofxcxf");
+        turned.Add("Bath", "offcxc");
+        turned.Add("TV", "ofxf");
+        turned.Add("Washbasin", "ozff");
     }
     void Start()
     {
+
         pomieszczenie = "Korytarz";
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
+        count = 0;
         WinText.text = "";
         licznik1 = 0;
         licznik2 = 0;
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
         turn = "";
         szafa_P = true;
         szafa_L = true;
+        active = false;
         KnowWhatToDo = false;
         dir = new Vector3();
         dictionary = new Dictionary<string, string>();
@@ -143,7 +148,8 @@ public class PlayerController : MonoBehaviour
         False.Add("Lampa1");
         False.Add("Washbasin");
         False.Add("TV");
-    }  
+    }
+  
     void WhatToDo()
     {
         // w tej funkcji rozklada zdanie na wyrazy które rozumie, zlicza ilość czasowników, i do listy dodaje rozpoznane obiekty
@@ -176,10 +182,16 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     lista.Add(dictionary[LowerWord]);
+
+
                 }
+                
+                // WinText.text += dictionary[LowerWord] + "(" + type[LowerWord] + ")";
             }
+
         }
-        if(action >=1)
+        // sprawdza czy dostał czasowniki (w zasadzie active i KnowWhatToDo odpowiadają za to samo i można zostawić tylko jedno
+        if(action > 0)
         {
             if (turn == "")
             {
@@ -198,6 +210,7 @@ public class PlayerController : MonoBehaviour
                     WinText.text = "Sir, już włączone.";
                     i = i - 1;
                     turn = "";
+
                 }
             }
             if (turn == "off")
@@ -216,7 +229,7 @@ public class PlayerController : MonoBehaviour
             }
             //KnowWhatToDo = true;
             //sound6.GetComponent<AudioSource>().Play();
-            //active = true;
+            active = true;
         }
         else
         {
@@ -246,7 +259,67 @@ public class PlayerController : MonoBehaviour
     }
     void Do()
     {
-               move2(lista.First());                 
+        // tej funkcji narazie nie rozwinałem, 
+        //powinna odpowiadać za to że np jak dostaniemy 3 czasowniki w zdaniu to wykona trzy polecenia 
+        //działa dla zdań pojedynczych
+           /* if(turn == "")
+            {
+            move2(lista.First());
+            }
+            if (turn == "on")
+            {
+                if (False.Contains(lista.First()))
+                {
+                    move2(lista.First());
+                }
+                else
+                {
+                WinText.text = "Sir, już włączone.";
+                i = i - 1;
+                turn = "";
+
+            }
+            }
+            if (turn == "off")
+            {
+                if (True.Contains(lista.First()))
+                {
+                    move2(lista.First());
+                }
+                else
+                {
+                WinText.text = "Sir, już wyłączone.";
+                i = i - 1;
+                turn = "";
+
+            }
+            }/*
+            WinText.text = turn;
+            WinText.text = lista.First();
+            if (turn == "on")
+            {
+                if (!isActivated[lista.First()])
+                {
+                    move2(lista.First());
+                }
+                else
+                {
+                    WinText.text = "Sir, już włączone!";
+                }
+            }
+            if (turn == "off")
+            {
+                if (isActivated[lista.First()])
+                {
+                    move2(lista.First());
+                }
+                else
+                {
+                    WinText.text = "Sir, już wyłączone!";
+                }
+            }*/
+               move2(lista.First());         
+        
     }
     void FixedUpdate()
     {
@@ -254,7 +327,9 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
-
+        // Sprawdza czy już dostał polecenie
+        // if(active)
+        //if (KnowWhatToDo)
         if(i>0 && KnowWhatToDo)
         {
                 Do();
@@ -269,8 +344,21 @@ public class PlayerController : MonoBehaviour
             {            
              if (Input.GetKeyUp(KeyCode.Return))
                 {
-                    //wprowadza do dziennika wszystkie zadania do wykonania
+                    //po enterze dostaje z inputa text
+                    //sprawdza czy rozumie podane mu zdanie 
                     toDiary();
+                   // WhatToDo();
+                    
+                 /*if (action > 0)
+                {
+                    KnowWhatToDo = true;
+                    active = true;
+                    sound6.GetComponent<AudioSource>().Play();
+                }
+                else
+                {
+                    HaveNoIdea();
+                }*/
                 }
             }
         }
@@ -302,6 +390,9 @@ public class PlayerController : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
             }
         }
+
+        //move2(field.text);
+        //move();
     }
     void RandomSound()
     {
@@ -622,6 +713,19 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 Change();
             }
+
+            /*if(other.gameObject.CompareTag("Dayili Room"))
+               {
+                if(field.text.Equals("tv") || field.text.Equals("lodówka"))
+                {
+                pomieszczenie = "pokoj dzienny";
+
+                }
+                else
+                {
+                    //pomieszczenie = "korytarz";
+                }
+            } */
             if (other.gameObject.CompareTag("kitchen") && destination.Equals("kitchen"))
             {
                 RandomSound();
@@ -664,6 +768,16 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pick Ups"))
+        {
+            other.gameObject.SetActive(false);
+
+
+        }
+
+    }
     void move()
     {
 		/*
@@ -702,6 +816,12 @@ public class PlayerController : MonoBehaviour
 
 		if (field.text.Equals("lamp1"))
         {
+			//Vector3 direction = trigger1.transform.position - transform.position;
+				//rb.AddReleviantForce(direction, transform.position);
+				//rb.AddRelativeForce(trigger1.transform.position);
+				//rb.AddForceAtPosition(trigger1.transform.position, transform.position);
+			//rb.AddForceAtPosition(direction, trigger1.transform.position);
+
 			Vector3 direction2 = lamp1.transform.position - transform.position;
 			if(Vector3.Magnitude(direction2) > 1)
 			{
@@ -744,6 +864,7 @@ public class PlayerController : MonoBehaviour
 						
 					}
 					else 
+				//if (licznikTV == true)
 					{
 					tv.transform.GetComponent<Renderer>().material.color = Color.black;
 					tv.gameObject.GetComponent<Light>().enabled = false;
@@ -1100,14 +1221,16 @@ public class PlayerController : MonoBehaviour
 				{
 					pomieszczenie = "korytarz";
 					WinText.text = pomieszczenie;
-				}							
+				}
+				
+				
 			}
 		}
     }
     void move2(string where)
     {
         if (array2.Contains(where)) { destination = where;  }
-
+        //WinText.text = GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie;
         if (pomieszczenie.Equals(GameObject.FindGameObjectWithTag(where).transform.parent.tag))
         {
             Vector3 direction = GameObject.FindGameObjectWithTag(where).transform.position - transform.position;
@@ -1116,8 +1239,10 @@ public class PlayerController : MonoBehaviour
                 rb.AddForceAtPosition(direction * 5, GameObject.FindGameObjectWithTag(where).transform.position);
             }
             dir = direction;
+
         }
         else {
+
             if (array.Contains(pomieszczenie) && array.Contains(GameObject.FindGameObjectWithTag(where).transform.parent.tag))
             {
                 Vector3 direction = GameObject.FindGameObjectWithTag("Korytarz-"
@@ -1131,9 +1256,12 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.SqrMagnitude(direction) < 3)
                 {
                     pomieszczenie = "Korytarz";
+                    //WinText.text = pomieszczenie;
                 }
                 dir = direction;
             }
+
+
             else
             {
                 Vector3 direction = GameObject.FindGameObjectWithTag(GameObject.FindGameObjectWithTag(where).transform.parent.tag +
@@ -1147,9 +1275,22 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.SqrMagnitude(direction) < 3)
                 {
                     pomieszczenie = GameObject.FindGameObjectWithTag(where).transform.parent.tag;
+                    //WinText.text = pomieszczenie;
                 }
                 dir = direction;
+
             }
+            
+
         }
+        //move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+
+        /*if (GameObject.FindGameObjectWithTag(where).transform.parent.tag != "Korytarz" && pomieszczenie != "Korytarz")
+        {
+           move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+        }
+        else {
+            move2(GameObject.FindGameObjectWithTag(where).transform.parent.tag + "-" + pomieszczenie);
+        }*/
     }   
     }

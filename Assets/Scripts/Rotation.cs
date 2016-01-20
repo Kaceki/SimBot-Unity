@@ -11,10 +11,14 @@ public class Rotation : MonoBehaviour {
         double d = ((moveVertical * moveVertical) + (moveHorizontal * moveHorizontal));
         double move = Math.Sqrt(d);
         float result = (float)move;
+        if( moveVertical < 0)
+        {
+            result = -result;
+        }
         transform.Rotate(new Vector3(0.0f, result, 0.0f) * 5);
     }*/
 
-   // public float speed;
+   //public float speed;
     void Update()
     {
         
