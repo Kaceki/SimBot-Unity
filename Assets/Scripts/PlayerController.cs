@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
     public string turn;
     public Text Answer;
     public InputField field;
-	public GameObject sound,sound2,sound3,sound4,sound5,sound6,
-        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv,
+	public GameObject sound,sound2,sound3,sound4,sound5,sound6,stereo,
+        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo,
         lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, 
         lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
     public Button button;
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
         dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
         dictionary.Add("tv", "TV"); type.Add("tv", "object");
-        dictionary.Add("lampe", "Lampa1"); type.Add("lampe", "object");
+        dictionary.Add("lampę", "Lampa1"); type.Add("lampę", "object");
         dictionary.Add("lampe w salonie", "Lampa3"); type.Add("lampe w salonie", "object");
         dictionary.Add("lampe w łazience", "Lampa2"); type.Add("lampe w łazience", "object");
         dictionary.Add("lampe w sypialni", "Lampa4"); type.Add("lampe w sypialni", "object");
@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
         dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
         dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
+        dictionary.Add("stereo", "Stereo"); type.Add("stereo", "object");
     }
     void Start()
     {
@@ -133,8 +134,53 @@ public class PlayerController : MonoBehaviour
         False = new ArrayList();
         True = new ArrayList();
         FalseAdd();
-
-        LoadDictionary();
+        dictionary.Add("idź", "move"); type.Add("idź", "action");
+        dictionary.Add("idz", "move"); type.Add("idz", "action");
+        dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
+        dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
+        dictionary.Add("włącz", "turn on"); type.Add("włącz", "action");
+        dictionary.Add("wyłącz", "turn off"); type.Add("wyłącz", "action");
+        dictionary.Add("zapal", "on"); type.Add("zapal", "action");
+        dictionary.Add("zgaś", "off"); type.Add("zgaś", "action");
+        dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
+        dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
+        dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
+        dictionary.Add("korytarz", "corridor"); type.Add("korytarz", "place");
+        dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
+        dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
+        dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
+        dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
+        dictionary.Add("tv", "TV"); type.Add("tv", "object");
+        dictionary.Add("lampę", "Lampa1"); type.Add("lampę", "object");
+        dictionary.Add("lampe w salonie", "Lampa3"); type.Add("lampe w salonie", "object");
+        dictionary.Add("lampe w łazience", "Lampa2"); type.Add("lampe w łazience", "object");
+        dictionary.Add("lampe w sypialni", "Lampa4"); type.Add("lampe w sypialni", "object");
+        dictionary.Add("lampe na korytarzu", "Lampa1"); type.Add("lampe na korytarzu", "object");
+        dictionary.Add("lampa", "lamp"); type.Add("lampa", "object");
+        dictionary.Add("wieże", "Stereo"); type.Add("wieże", "object");
+        dictionary.Add("drugą", "second"); type.Add("drugą", "number");
+        dictionary.Add("trzecią", "third"); type.Add("trzecią", "number");
+        dictionary.Add("czwartą", "fourth"); type.Add("czwartą", "number");
+        dictionary.Add("otwórz", "open"); type.Add("otwórz", "action");
+        dictionary.Add("zamknij", "close"); type.Add("zamknij", "action");
+        dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
+        dictionary.Add("lodówke", "Fridge"); type.Add("lodówke", "object");
+        dictionary.Add("lampy", "lamp"); type.Add("lampy", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("drzwi", "doors"); type.Add("drzwi", "object");
+        dictionary.Add("stołu", "table"); type.Add("stołu", "object");
+        dictionary.Add("stół", "table"); type.Add("stół", "object");
+        dictionary.Add("szafy", "wardrobe"); type.Add("szafy", "object");
+        dictionary.Add("szafe", "wardrobe"); type.Add("szafe", "object");
+        dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
+        dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
+        dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
+       // dictionary.Add("stereo", "Stereo"); type.Add("stereo", "object");
+       // LoadDictionary();
 
     }
     void FalseAdd()
@@ -143,6 +189,7 @@ public class PlayerController : MonoBehaviour
         False.Add("Lampa1");
         False.Add("Washbasin");
         False.Add("TV");
+        False.Add("Stereo");
     }  
     void WhatToDo()
     {
@@ -158,6 +205,7 @@ public class PlayerController : MonoBehaviour
             string LowerWord = word.ToLower();
             if (dictionary.ContainsKey(LowerWord))
             {
+                WinText.text += dictionary[LowerWord];
                 if (type[LowerWord] == "action")
                 {
                     action += 1;
@@ -254,7 +302,7 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
-
+      
         if(i>0 && KnowWhatToDo)
         {
                 Do();
@@ -489,6 +537,22 @@ public class PlayerController : MonoBehaviour
                     other.transform.GetComponent<Renderer>().material.color = Color.black;
                     other.gameObject.GetComponent<Light>().enabled = false;
                     licznikTV = false;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
+            if (other.gameObject.CompareTag("Stereo"))
+            {
+                if (False.Contains("Stereo"))
+                {
+                    stereo.GetComponent<AudioSource>().Play();
+                }
+                else
+                {
+                    stereo.GetComponent<AudioSource>().Stop();
                 }
                 active = false;
                 KnowWhatToDo = false;
