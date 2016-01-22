@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     }
     public Vector3 dir;
     private Rigidbody rb;
-    private int licznik1, licznik2, licznik3, licznik4;
+    private int licznik1, licznik2, licznik3, licznik4,licznik5;
     private bool szafa_P, szafa_L, licznikTV;
     private bool szafka2, szafka3, szafka4, drzwi1, drzwi2, wanna, kran;
     private Shader shader;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public Dictionary<string, string> dictionary, type ;
     public List<string> lista;
     string[] array = { "Kuchnia", "Salon", "Łazienka", "Sypialnia" };
-    string[] array2 = { "kitchen", "dinneroom", "bathroom", "bedroom", "corridor" };
+    string[] array2 = { "kitchen", "dinnerroom", "bathroom", "bedroom", "corridor" };
     string[] diary;
     ArrayList True;
     ArrayList False;
@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
         dictionary.Add("korytarz", "corridor"); type.Add("korytarz", "place");
         dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
+        dictionary.Add("salonu", "dinnerroom"); type.Add("salonu", "place");
         dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
         dictionary.Add("wanne", "Bath"); type.Add("wanne", "object");
         dictionary.Add("napełnij", "on"); type.Add("napełnij", "action");
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
         dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
         dictionary.Add("tv", "TV"); type.Add("tv", "object");
-        dictionary.Add("lampę", "Lampa1"); type.Add("lampę", "object");
+        dictionary.Add("lampę", "Lampa"); type.Add("lampę", "object");
         dictionary.Add("lampe w salonie", "Lampa3"); type.Add("lampe w salonie", "object");
         dictionary.Add("lampe w łazience", "Lampa2"); type.Add("lampe w łazience", "object");
         dictionary.Add("lampe w sypialni", "Lampa4"); type.Add("lampe w sypialni", "object");
@@ -128,6 +129,7 @@ public class PlayerController : MonoBehaviour
         licznik2 = 0;
         licznik3 = 0;
         licznik4 = 0;
+        licznik5 = 0;
         turn = "";
         szafa_P = true;
         szafa_L = true;
@@ -146,10 +148,15 @@ public class PlayerController : MonoBehaviour
     void FalseAdd()
     {
         False.Add("Bath");
-        False.Add("Lampa1");
+        //False.Add("Lampa1");
         False.Add("Washbasin");
         False.Add("TV");
         False.Add("Stereo");
+        False.Add("Lampa-Korytarz");
+        False.Add("Lampa-Salon");
+        False.Add("Lampa-Kuchnia");
+        False.Add("Lampa-Łazienka");
+        False.Add("Lampa-Sypialnia");
     }  
     void WhatToDo()
     {
@@ -183,7 +190,15 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    lista.Add(dictionary[LowerWord]);
+                    if(dictionary[LowerWord] == "Lampa")
+                    {
+                        lista.Add("Lampa-" + pomieszczenie);
+                    }
+                    else
+                    {
+                        lista.Add(dictionary[LowerWord]);
+                    }
+                    
                 }
             }
         }
@@ -354,6 +369,141 @@ public class PlayerController : MonoBehaviour
 
         if (KnowWhatToDo)
         {
+            if (other.gameObject.CompareTag("Lampa-Łazienka"))
+            {
+                RandomSound();
+                if (licznik1 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik1 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik1 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
+            if (other.gameObject.CompareTag("Lampa-Korytarz"))
+            {
+                RandomSound();
+                if (licznik2 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik2 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik2 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
+            if (other.gameObject.CompareTag("Lampa-Salon"))
+            {
+                RandomSound();
+                if (licznik3 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik3 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik3 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
+            if (other.gameObject.CompareTag("Lampa-Sypialnia"))
+            {
+                RandomSound();
+                if (licznik4 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik4 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik4 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
+            if (other.gameObject.CompareTag("Lampa-Kuchnia"))
+            {
+                RandomSound();
+                if (licznik5 == 0)
+                {
+                    // shader = Shader.Find("Unlit/Transparent");
+                    // other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.yellow;
+                    other.gameObject.GetComponent<Light>().enabled = true;
+                    licznik5 = 1;
+                }
+                else
+                {
+                    //shader = Shader.Find("Standard");
+                    //other.transform.GetComponent<Renderer>().material.shader = shader;
+                    other.transform.GetComponent<Renderer>().material = Lights_off;
+                    //other.transform.GetComponent<Renderer>().material.color = Color.white;
+                    other.gameObject.GetComponent<Light>().enabled = false;
+                    licznik5 = 0;
+                }
+                active = false;
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
             if (other.gameObject.CompareTag("Lampa1"))
             {
                 RandomSound();
