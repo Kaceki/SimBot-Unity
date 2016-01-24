@@ -12,19 +12,6 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public Text CountText;
     public Text WinText;
-    
-    private static PlayerController instance = null;
-    public static PlayerController SharedInstance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new PlayerController();
-            }
-            return instance;
-        }
-    }
     public Vector3 dir;
     private Rigidbody rb;
     private int licznik1, licznik2, licznik3, licznik4,licznik5;
@@ -53,10 +40,20 @@ public class PlayerController : MonoBehaviour
     ArrayList False;
     int i;
     public string destination;
-
     private bool active,KnowWhatToDo;
-
-    void toDiary()
+    private static PlayerController instance = null;
+    public static PlayerController SharedInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new PlayerController();
+            }
+            return instance;
+        }
+    }
+    public void toDiary()
     {
         diary = new string[] { };
         string input = field.text;
@@ -144,7 +141,6 @@ public class PlayerController : MonoBehaviour
         LoadDictionary();
 
     }
-
     void FalseAdd()
     {
         False.Add("Bath");
