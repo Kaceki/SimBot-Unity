@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public Text Answer;
     public InputField field;
 	public GameObject sound,sound2,sound3,sound4,sound5,sound6,stereo,
-        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo,
+        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo,screen,
         lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, 
         lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
     public Button button;
@@ -83,9 +83,12 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
         dictionary.Add("salonu", "dinnerroom"); type.Add("salonu", "place");
         dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
-        dictionary.Add("wanne", "Bath"); type.Add("wanne", "object");
+        dictionary.Add("wannę", "Bath"); type.Add("wannę", "object");
+        dictionary.Add("łóżko", "Bed"); type.Add("łóżko", "object");
         dictionary.Add("napełnij", "on"); type.Add("napełnij", "action");
         dictionary.Add("opróźnij", "off"); type.Add("opróźnij", "action");
+        dictionary.Add("pościel", "on"); type.Add("pościel", "action");
+        dictionary.Add("rozściel", "off"); type.Add("rozściel", "action");
         dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
         dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
         dictionary.Add("tv", "TV"); type.Add("tv", "object");
@@ -100,8 +103,8 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("drugą", "second"); type.Add("drugą", "number");
         dictionary.Add("trzecią", "third"); type.Add("trzecią", "number");
         dictionary.Add("czwartą", "fourth"); type.Add("czwartą", "number");
-        dictionary.Add("otwórz", "open"); type.Add("otwórz", "action");
-        dictionary.Add("zamknij", "close"); type.Add("zamknij", "action");
+        dictionary.Add("otwórz", "on"); type.Add("otwórz", "action");
+        dictionary.Add("zamknij", "off"); type.Add("zamknij", "action");
         dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
         dictionary.Add("lodówke", "Fridge"); type.Add("lodówke", "object");
         dictionary.Add("lampy", "lamp"); type.Add("lampy", "object");
@@ -109,8 +112,8 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("drzwi", "doors"); type.Add("drzwi", "object");
         dictionary.Add("stołu", "table"); type.Add("stołu", "object");
         dictionary.Add("stół", "table"); type.Add("stół", "object");
-        dictionary.Add("szafy", "wardrobe"); type.Add("szafy", "object");
-        dictionary.Add("szafe", "wardrobe"); type.Add("szafe", "object");
+        dictionary.Add("szafy", "Wardrobe"); type.Add("szafy", "object");
+        dictionary.Add("szafę", "Wardrobe"); type.Add("szafę", "object");
         dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
         dictionary.Add("pogodę", "weather"); type.Add("pogodę", "object");
         dictionary.Add("wróć", "go back"); type.Add("wróć", "action");
@@ -146,6 +149,7 @@ public class PlayerController : MonoBehaviour
         False.Add("Bath");
         //False.Add("Lampa1");
         False.Add("Washbasin");
+        False.Add("Wardrobe");
         False.Add("TV");
         False.Add("Stereo");
         False.Add("Lampa-Korytarz");
@@ -153,6 +157,7 @@ public class PlayerController : MonoBehaviour
         False.Add("Lampa-Kuchnia");
         False.Add("Lampa-Łazienka");
         False.Add("Lampa-Sypialnia");
+        False.Add("Bed");
     }  
     void WhatToDo()
     {
@@ -269,10 +274,10 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        /*float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(movement * speed);*/
+        rb.AddForce(movement * speed);
       
         if(i>0 && KnowWhatToDo)
         {
@@ -600,12 +605,36 @@ public class PlayerController : MonoBehaviour
                 active = false;
                 KnowWhatToDo = false;
             }
+            if (other.gameObject.CompareTag("Wardrobe"))
+            {
+                if (False.Contains("Wardrobe"))
+                {
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Rotate(0, 90, 0);
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Translate(+0.6f, 0f, -0.6f);
+
+                    GameObject.FindGameObjectWithTag("Wardrobe_L").transform.Rotate(0, 90, 0);
+                    GameObject.FindGameObjectWithTag("Wardrobe_L").transform.Translate(+0.6f, 0f, +0.6f);
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Rotate(0, 270, 0);
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Translate(+0.6f, 0f, +0.6f);
+
+                    GameObject.FindGameObjectWithTag("Wardrobe_L").transform.Rotate(0, 270, 0);
+                    GameObject.FindGameObjectWithTag("Wardrobe_L").transform.Translate(-0.6f, 0f, +0.6f);
+                }
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+                Change();
+            }
             if (other.gameObject.CompareTag("Wardrobe_R"))
             {
                 if (szafa_P == false)
                 {
-                    other.transform.Rotate(0, 90, 0);
-                    other.transform.Translate(+0.6f, 0f, -0.6f);
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Rotate(0, 90, 0);
+                    GameObject.FindGameObjectWithTag("Wardrobe_R").transform.Translate(+0.6f, 0f, -0.6f);
+
                     szafa_P = true;
                 }
                 else if (szafa_P == true)
@@ -634,12 +663,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (licznikTV == false)
                 {
+                    screen.gameObject.SetActive(true);
                     other.transform.GetComponent<Renderer>().material.color = Color.white;
                     other.gameObject.GetComponent<Light>().enabled = true;
                     licznikTV = true;
                 }
                 else if (licznikTV == true)
                 {
+                    screen.gameObject.SetActive(false);
                     other.transform.GetComponent<Renderer>().material.color = Color.black;
                     other.gameObject.GetComponent<Light>().enabled = false;
                     licznikTV = false;
@@ -771,9 +802,26 @@ public class PlayerController : MonoBehaviour
             }
             if (other.gameObject.CompareTag("Coverlet off"))
             {
-                other.gameObject.SetActive(false);
-                koldra_t.gameObject.SetActive(true);
+
             } */
+            if (other.gameObject.CompareTag("Bed"))
+            {
+                if (False.Contains("Bed"))
+                {
+                    koldra_n.gameObject.SetActive(false);
+                    koldra_t.gameObject.SetActive(true);
+                }
+                else
+                {
+                    koldra_t.gameObject.SetActive(false);
+                    koldra_n.gameObject.SetActive(true);
+                }
+                KnowWhatToDo = false;
+                i = i - 1;
+                turn = "";
+                Change();
+            }
+
             if (other.gameObject.CompareTag("Washbasin"))
             {
                 Debug.Log("to kran");
@@ -789,6 +837,7 @@ public class PlayerController : MonoBehaviour
                 }
                 active = false;
                 KnowWhatToDo = false;
+                i = i - 1;
                 turn = "";
                 Change();
             }
