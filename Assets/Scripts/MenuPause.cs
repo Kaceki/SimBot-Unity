@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class MenuPause : MonoBehaviour
 {
     bool infoOpen;
     public GameObject Canvas_PauseMenu;
