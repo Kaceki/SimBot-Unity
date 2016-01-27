@@ -19,16 +19,5 @@ public class Rotation : MonoBehaviour {
     }*/
 
    //public float speed;
-    void Update()
-    {
-        
-        Vector3 targetDir = PlayerController.SharedInstance.dir;
-        transform.Rotate(targetDir *5);
-        /*float step = speed * Time.deltaTime;
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-        Debug.DrawRay(transform.position, newDir, Color.red);
-        transform.rotation = Quaternion.LookRotation(newDir);*/
-    }
-
 
 }
