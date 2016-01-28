@@ -25,10 +25,10 @@ public class PlayerController : MonoBehaviour
     public string turn;
     public Text Answer;
     public InputField field;
-    public GameObject sound, sound2, sound3, sound4, sound5, sound6, stereo, cooker, washmachine,
+    public GameObject sound, sound2, sound3, sound4, sound5, sound6, stereo, washmachine,
         Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo, screen,
         lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie,
-        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge_o, fridge_c, Bed, CloudText;
+        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge_o, fridge_c, Bed, CloudText, Cooker_drawer_close, Cooker_drawer_open;
     public Button button;
     public Dictionary<string, string> dictionary, type;
     public List<string> lista;
@@ -923,11 +923,13 @@ public class PlayerController : MonoBehaviour
                 {
                     if (False.Contains("Cooker"))
                     {
-                        cooker.gameObject.SetActive(true);
+                        Cooker_drawer_open.gameObject.SetActive(true);
+                        Cooker_drawer_close.gameObject.SetActive(false);
                     }
                     else
                     {
-                        cooker.gameObject.SetActive(false);
+                        Cooker_drawer_open.gameObject.SetActive(false);
+                        Cooker_drawer_close.gameObject.SetActive(true);
                     }
                 Change();
                 }
