@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     int i;
     public string destination;
     private bool KnowWhatToDo;
+    string alreadyTurned;
+    int sleep;
     void Start()
     {
         pomieszczenie = "Korytarz";
@@ -51,9 +53,11 @@ public class PlayerController : MonoBehaviour
         licznik3 = 0;
         licznik4 = 0;
         licznik5 = 0;
+        sleep = 0;
         turn = "";
         szafa_P = true;
         szafa_L = true;
+        alreadyTurned = "";
         dictionary = new Dictionary<string, string>();
         type = new Dictionary<string, string>();
         False = new ArrayList();
@@ -86,6 +90,16 @@ public class PlayerController : MonoBehaviour
                 {
                     //wprowadza do dziennika wszystkie zadania do wykonania
                     toDiary();
+                }
+                else
+                {
+                    if (sleep == 100)
+                    {
+                    WinText.text = "";
+                        sleep = 0;
+                    }
+                    else { sleep++; }
+
                 }
             }
         }
@@ -178,7 +192,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    WinText.text = "Sir, już włączone.";
+                    alreadyTurned = "on";
+                 //  WinText.text = "Sir, już włączone.";
                     i = i - 1;
                     turn = "";
                 }
@@ -192,7 +207,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    WinText.text = "Sir, już wyłączone.";
+                    alreadyTurned = "off";
+                   // WinText.text = "Sir, już wyłączone.";
                     i = i - 1;
                     turn = "";
                 }
@@ -568,7 +584,21 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            WinText.text = "Nie rozumiem.";
+            if (alreadyTurned == "on")
+            {
+                WinText.text = "Sir, już włączone.";
+            }
+            else
+            {
+                if (alreadyTurned == "off")
+                {
+                    WinText.text = "Sir, już wyłączone.";
+                }
+                else
+                {
+                    WinText.text = "Nie rozumiem.";
+                }
+            }
         }
     }
     void RandomSound()
