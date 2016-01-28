@@ -131,9 +131,17 @@ public class PlayerController : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
             }
         }
+        // restartuje po wadliwym ruchu F3
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            turn = "";
+            KnowWhatToDo = false;
+            i = 0;
+
+        }
 
 
-        if (WinText.text == "")
+            if (WinText.text == "")
         {
             CloudText.SetActive(false);
         }
@@ -297,7 +305,7 @@ public class PlayerController : MonoBehaviour
         dictionary.Add("zamknij", "off"); type.Add("zamknij", "action");
         dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
         dictionary.Add("lodówkę", "Fridge"); type.Add("lodówkę", "object");
-        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("światło", "Lampa"); type.Add("światło", "object");
         dictionary.Add("szafy", "Wardrobe"); type.Add("szafy", "object");
         dictionary.Add("szafę", "Wardrobe"); type.Add("szafę", "object");
         dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
@@ -356,7 +364,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    if (lista.First() == "Bath")
+                    if (lista.First() == "Bath" || lista.First() == "Washbasin")
                     {
                         if (turn == "on")
                         {
@@ -547,7 +555,22 @@ public class PlayerController : MonoBehaviour
                                                             }
                                                             else
                                                             {
-                                                                return "error";
+                                                                if (lista.First() == "Washbasin")
+                                                                {
+                                                                    if (turn == "")
+                                                                    {
+                                                                        return "umywalki";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        return "umywalkę";
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    return "error";
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -654,7 +677,7 @@ public class PlayerController : MonoBehaviour
 
         if (KnowWhatToDo)
         {
-            if (other.gameObject.CompareTag("Lampa-Łazienka"))
+            if (other.gameObject.CompareTag("Lampa-Łazienka") && lista.First() == "Lampa-Łazienka")
             {
                 //RandomSound();
                 if (turn != "")
@@ -683,7 +706,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("Lampa-Korytarz"))
+            if (other.gameObject.CompareTag("Lampa-Korytarz") && lista.First() == "Lampa-Korytarz")
             {
                 //RandomSound();
                 if (turn != "")
@@ -713,7 +736,7 @@ public class PlayerController : MonoBehaviour
                 i = i - 1;
 
             }
-            if (other.gameObject.CompareTag("Lampa-Salon"))
+            if (other.gameObject.CompareTag("Lampa-Salon") && lista.First() == "Lampa-Salon")
             {
                 //RandomSound();
                 if (turn != "")
@@ -744,7 +767,7 @@ public class PlayerController : MonoBehaviour
                 i = i - 1;
 
             }
-            if (other.gameObject.CompareTag("Lampa-Sypialnia"))
+            if (other.gameObject.CompareTag("Lampa-Sypialnia") && lista.First() == "Lampa-Sypialnia")
             {
                 //RandomSound();
                 if (turn != "")
@@ -774,7 +797,7 @@ public class PlayerController : MonoBehaviour
                 i = i - 1;
 
             }
-            if (other.gameObject.CompareTag("Lampa-Kuchnia"))
+            if (other.gameObject.CompareTag("Lampa-Kuchnia") && lista.First() == "Lampa-Kuchnia")
             {
                 //RandomSound();
                 if (turn != "")
@@ -805,7 +828,7 @@ public class PlayerController : MonoBehaviour
                 i = i - 1;
 
             }
-            if (other.gameObject.CompareTag("Wardrobe"))
+            if (other.gameObject.CompareTag("Wardrobe") && lista.First() == "Wardrobe")
             {
                 if (turn != "")
                 {
@@ -832,7 +855,7 @@ public class PlayerController : MonoBehaviour
                 i = i - 1;
 
             }
-            if (other.gameObject.CompareTag("TV"))
+            if (other.gameObject.CompareTag("TV") && lista.First() == "TV")
             {
                 if (turn != "")
                 {
@@ -856,7 +879,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("Fridge"))
+            if (other.gameObject.CompareTag("Fridge") && lista.First() == "Fridge")
             {
                 if (turn != "")
                 {
@@ -876,7 +899,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("Stereo"))
+            if (other.gameObject.CompareTag("Stereo") && lista.First() == "Stereo")
             {
                 if (turn != "")
                 {
@@ -894,7 +917,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("Cooker"))
+            if (other.gameObject.CompareTag("Cooker") && lista.First() == "Cooker")
             {
                 if (turn != "")
                 {
@@ -912,7 +935,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("WashMachine"))
+            if (other.gameObject.CompareTag("WashMachine") && lista.First() == "WashMachine")
             {
                 if (turn != "")
                 {
@@ -930,7 +953,7 @@ public class PlayerController : MonoBehaviour
                 turn = "";
                 i = i - 1;
             }
-            if (other.gameObject.CompareTag("Cupboard2"))
+            if (other.gameObject.CompareTag("Cupboard2") && lista.First() == "Cupboard2")
             {
 
                 if (szafka2 == false)
@@ -944,7 +967,7 @@ public class PlayerController : MonoBehaviour
                     szafka2 = false;
                 }
             }
-            if (other.gameObject.CompareTag("Cupboard3"))
+            if (other.gameObject.CompareTag("Cupboard3") && lista.First() == "Cupboard3")
             {
 
                 if (szafka3 == false)
@@ -958,7 +981,7 @@ public class PlayerController : MonoBehaviour
                     szafka3 = false;
                 }
             }
-            if (other.gameObject.CompareTag("Cupboard4"))
+            if (other.gameObject.CompareTag("Cupboard4") && lista.First() == "Cupboard4")
             {
 
                 if (szafka4 == false)
@@ -972,7 +995,7 @@ public class PlayerController : MonoBehaviour
                     szafka4 = false;
                 }
             }
-            if (other.gameObject.CompareTag("Bath"))
+            if (other.gameObject.CompareTag("Bath") && lista.First() == "Bath")
             {
                 if (turn != "")
                 {
@@ -1038,7 +1061,7 @@ public class PlayerController : MonoBehaviour
             {
 
             } */
-            if (other.gameObject.CompareTag("Bed"))
+            if (other.gameObject.CompareTag("Bed") && lista.First() == "Bed")
             {
                 if (turn != "")
                 {
@@ -1059,20 +1082,18 @@ public class PlayerController : MonoBehaviour
                 turn = "";
             }
 
-            if (other.gameObject.CompareTag("Washbasin"))
+            if (other.gameObject.CompareTag("Washbasin") && lista.First() == "Washbasin")
             {
                 Debug.Log("to kran");
                 if (turn != "")
                 {
-                    if (kran == false)
+                    if (False.Contains("Washbasin"))
                     {
                         woda_kran_lazienka.gameObject.SetActive(true);
-                        kran = true;
                     }
-                    else if (kran == true)
+                    else
                     {
-                        woda_kran_lazienka.gameObject.SetActive(false);
-                        kran = false;
+                        woda_kran_lazienka.gameObject.SetActive(false);        
                     }
                 Change();
                 }
