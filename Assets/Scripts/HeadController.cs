@@ -23,7 +23,7 @@ public class HeadController : MonoBehaviour
 
         //obliczanie wektora kierunku ruchu (bazując na aktualnej i poprzedniej pozycji)
         var direction = transform.position - lastPosition;
-        var localDirection = transform.InverseTransformDirection(direction);
+        //var localDirection = transform.InverseTransformDirection(direction);
         lastPosition = transform.position;
 
         //przełożenie wektora na rotację głowy

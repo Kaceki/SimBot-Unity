@@ -13,24 +13,24 @@ public class PlayerController : MonoBehaviour
     public Text CountText;
     public Text WinText;
     private Rigidbody rb;
-    private int licznik1, licznik2, licznik3, licznik4,licznik5;
+    private int licznik1, licznik2, licznik3, licznik4, licznik5;
     private bool szafa_P, szafa_L, licznikTV;
     private bool szafka2, szafka3, szafka4, drzwi1, drzwi2, wanna, kran;
     private Shader shader;
     public Material Lights, Lights_off;
-    private CharacterController characterController;
-	private string pomieszczenie;
+    //private CharacterController characterController;
+    private string pomieszczenie;
     int action, place;
     public Vector3 velocity;
     public string turn;
     public Text Answer;
     public InputField field;
-	public GameObject sound,sound2,sound3,sound4,sound5,sound6,stereo,cooker,washmachine,
-        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo,screen,
-        lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie, 
-        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge, Bed;
+    public GameObject sound, sound2, sound3, sound4, sound5, sound6, stereo, cooker, washmachine,
+        Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo, screen,
+        lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie,
+        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge_o, fridge_c, Bed;
     public Button button;
-    public Dictionary<string, string> dictionary, type ;
+    public Dictionary<string, string> dictionary, type;
     public List<string> lista;
     string[] array = { "Kuchnia", "Salon", "Łazienka", "Sypialnia" };
     string[] array2 = { "kitchen", "dinnerroom", "bathroom", "bedroom", "corridor" };
@@ -40,10 +40,10 @@ public class PlayerController : MonoBehaviour
     int i;
     public string destination;
     private bool KnowWhatToDo;
-  void Start()
+    void Start()
     {
         pomieszczenie = "Korytarz";
-        characterController = GetComponent<CharacterController>();
+  //      characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         WinText.text = "";
         licznik1 = 0;
@@ -63,92 +63,61 @@ public class PlayerController : MonoBehaviour
         LoadDictionary();
 
     }
-   
-    public void toDiary()
+    void FixedUpdate()
     {
-        diary = new string[] { };
-        string input = field.text;
-        string[] delimiters = new string[] { " i ", ", ", "oraz",". " };
-        diary = input.Split(delimiters, System.StringSplitOptions.RemoveEmptyEntries);
-        //diary = input.Split(',');
-        System.Array.Reverse(diary);
-        i = diary.Length;
-    }
-    void LoadDictionary()
-    {
+        /*float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rb.AddForce(movement * speed);*/
 
-        dictionary.Add("idź", "move"); type.Add("idź", "action");
-        dictionary.Add("idz", "move"); type.Add("idz", "action");
-        dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
-        dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
-        dictionary.Add("jedź", "move"); type.Add("jedź", "action");
-        dictionary.Add("jedz", "move"); type.Add("jedz", "action");
-        dictionary.Add("włącz", "on"); type.Add("włącz", "action");
-        dictionary.Add("wylącz", "off"); type.Add("wylącz", "action");
-        dictionary.Add("wlącz", "on"); type.Add("wlącz", "action");
-        dictionary.Add("wyłacz", "off"); type.Add("wyłacz", "action");
-        dictionary.Add("włacz", "on"); type.Add("włacz", "action");
-        dictionary.Add("wyłącz", "off"); type.Add("wyłącz", "action");
-        dictionary.Add("wlacz", "on"); type.Add("wlacz", "action");
-        dictionary.Add("wylacz", "off"); type.Add("wylacz", "action");
-        dictionary.Add("puść", "on"); type.Add("puść", "action");
-        dictionary.Add("muzykę", "Stereo"); type.Add("muzykę", "object");
-        dictionary.Add("zapal", "on"); type.Add("zapal", "action");
-        dictionary.Add("zgaś", "off"); type.Add("zgaś", "action");
-        dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
-        dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
-        dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
-        dictionary.Add("korytarz", "corridor"); type.Add("korytarz", "place");
-        dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
-        dictionary.Add("salonu", "dinnerroom"); type.Add("salonu", "place");
-        dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
-        dictionary.Add("wannę", "Bath"); type.Add("wannę", "object");
-        dictionary.Add("łóżko", "Bed"); type.Add("łóżko", "object");
-        dictionary.Add("napełnij", "on"); type.Add("napełnij", "action");
-        dictionary.Add("opróźnij", "off"); type.Add("opróźnij", "action");
-        dictionary.Add("pościel", "on"); type.Add("pościel", "action");
-        dictionary.Add("rozściel", "off"); type.Add("rozściel", "action");
-        dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
-        dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
-        dictionary.Add("telewizora", "TV"); type.Add("telewizora", "object");
-        dictionary.Add("tv", "TV"); type.Add("tv", "object");
-        dictionary.Add("lampę", "Lampa"); type.Add("lampę", "object");
-        dictionary.Add("piekarnik", "Cooker"); type.Add("piekarnik", "object");
-        dictionary.Add("piekarnika", "Cooker"); type.Add("piekarnika", "object");
-        dictionary.Add("kuchenki", "Cooker"); type.Add("kuchenki", "object");
-        dictionary.Add("kuchenkę", "Cooker"); type.Add("kuchenkę", "object");
-        dictionary.Add("pralki", "WashMachine"); type.Add("pralki", "object");
-        dictionary.Add("pralkę", "WashMachine"); type.Add("pralkę", "object");
-        dictionary.Add("lampy", "Lampa"); type.Add("lampy", "object");
-        dictionary.Add("wieże", "Stereo"); type.Add("wieże", "object");
-        dictionary.Add("wieży", "Stereo"); type.Add("wieży", "object");
-        dictionary.Add("otwórz", "on"); type.Add("otwórz", "action");
-        dictionary.Add("zamknij", "off"); type.Add("zamknij", "action");
-        dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
-        dictionary.Add("lodówkę", "Fridge"); type.Add("lodówkę", "object");
-        dictionary.Add("światło", "light"); type.Add("światło", "object");
-        dictionary.Add("szafy", "Wardrobe"); type.Add("szafy", "object");
-        dictionary.Add("szafę", "Wardrobe"); type.Add("szafę", "object");
-        dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
+        if (i > 0 && KnowWhatToDo)
+        {
+            Do();
+        }
+        else
+        {
+            if (i > 0)
+            {
+                WhatToDo();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.Return))
+                {
+                    //wprowadza do dziennika wszystkie zadania do wykonania
+                    toDiary();
+                }
+            }
+        }
+
+        // Tu są dodatkowe ficzery - kamera z pierwszej osoby i latarka pod F1 i F2
+        if (Input.GetKeyUp(KeyCode.F2))
+        {
+            if (GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled.Equals(true))
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = false;
+            }
+            else
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = true;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled.Equals(true))
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = false;
+            }
+            else
+            {
+                WinText.text = "";
+                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
+            }
+        }
     }
-    void FalseAdd()
-    {
-        False.Add("Bath");
-        //False.Add("Lampa1");
-        False.Add("Washbasin");
-        False.Add("Wardrobe");
-        False.Add("TV");
-        False.Add("Stereo");
-        False.Add("Lampa-Korytarz");
-        False.Add("Lampa-Salon");
-        False.Add("Lampa-Kuchnia");
-        False.Add("Lampa-Łazienka");
-        False.Add("Lampa-Sypialnia");
-        False.Add("Bed");
-        False.Add("Cooker");
-        False.Add("Toilet");
-        False.Add("WashMachine");
-    }  
     void WhatToDo()
     {
         // w tej funkcji rozklada zdanie na wyrazy które rozumie, zlicza ilość czasowników, i do listy dodaje rozpoznane obiekty
@@ -237,10 +206,338 @@ public class PlayerController : MonoBehaviour
             HaveNoIdea();
             i = i - 1;
         }
-        
+        Comment();
         field.text = "";
     }
-    void Change()
+    public void toDiary()
+    {
+        diary = new string[] { };
+        string input = field.text;
+        string[] delimiters = new string[] { " i ", ", ", "oraz", ". " };
+        diary = input.Split(delimiters, System.StringSplitOptions.RemoveEmptyEntries);
+        //diary = input.Split(',');
+        System.Array.Reverse(diary);
+        i = diary.Length;
+    }
+    void LoadDictionary()
+    {
+
+        dictionary.Add("idź", "move"); type.Add("idź", "action");
+        dictionary.Add("idz", "move"); type.Add("idz", "action");
+        dictionary.Add("podejdź", "move"); type.Add("podejdź", "action");
+        dictionary.Add("podjedź", "move"); type.Add("podjedź", "action");
+        dictionary.Add("jedź", "move"); type.Add("jedź", "action");
+        dictionary.Add("jedz", "move"); type.Add("jedz", "action");
+        dictionary.Add("włącz", "on"); type.Add("włącz", "action");
+        dictionary.Add("wylącz", "off"); type.Add("wylącz", "action");
+        dictionary.Add("wlącz", "on"); type.Add("wlącz", "action");
+        dictionary.Add("wyłacz", "off"); type.Add("wyłacz", "action");
+        dictionary.Add("włacz", "on"); type.Add("włacz", "action");
+        dictionary.Add("wyłącz", "off"); type.Add("wyłącz", "action");
+        dictionary.Add("wlacz", "on"); type.Add("wlacz", "action");
+        dictionary.Add("wylacz", "off"); type.Add("wylacz", "action");
+        dictionary.Add("puść", "on"); type.Add("puść", "action");
+        dictionary.Add("muzykę", "Stereo"); type.Add("muzykę", "object");
+        dictionary.Add("zapal", "on"); type.Add("zapal", "action");
+        dictionary.Add("zgaś", "off"); type.Add("zgaś", "action");
+        dictionary.Add("kuchni", "kitchen"); type.Add("kuchni", "place");
+        dictionary.Add("sypialni", "bedroom"); type.Add("sypialni", "place");
+        dictionary.Add("łazienki", "bathroom"); type.Add("łazienki", "place");
+        dictionary.Add("korytarz", "corridor"); type.Add("korytarz", "place");
+        dictionary.Add("łazience", "bathroom"); type.Add("łazience", "place");
+        dictionary.Add("salonu", "dinnerroom"); type.Add("salonu", "place");
+        dictionary.Add("wanny", "Bath"); type.Add("wanny", "object");
+        dictionary.Add("wannę", "Bath"); type.Add("wannę", "object");
+        dictionary.Add("łóżko", "Bed"); type.Add("łóżko", "object");
+        dictionary.Add("napełnij", "on"); type.Add("napełnij", "action");
+        dictionary.Add("opróźnij", "off"); type.Add("opróźnij", "action");
+        dictionary.Add("pościel", "on"); type.Add("pościel", "action");
+        dictionary.Add("rozściel", "off"); type.Add("rozściel", "action");
+        dictionary.Add("umywalkę", "Washbasin"); type.Add("umywalkę", "object");
+        dictionary.Add("telewizor", "TV"); type.Add("telewizor", "object");
+        dictionary.Add("telewizora", "TV"); type.Add("telewizora", "object");
+        dictionary.Add("tv", "TV"); type.Add("tv", "object");
+        dictionary.Add("lampę", "Lampa"); type.Add("lampę", "object");
+        dictionary.Add("piekarnik", "Cooker"); type.Add("piekarnik", "object");
+        dictionary.Add("piekarnika", "Cooker"); type.Add("piekarnika", "object");
+        dictionary.Add("kuchenki", "Cooker"); type.Add("kuchenki", "object");
+        dictionary.Add("kuchenkę", "Cooker"); type.Add("kuchenkę", "object");
+        dictionary.Add("pralki", "WashMachine"); type.Add("pralki", "object");
+        dictionary.Add("pralkę", "WashMachine"); type.Add("pralkę", "object");
+        dictionary.Add("lampy", "Lampa"); type.Add("lampy", "object");
+        dictionary.Add("wieże", "Stereo"); type.Add("wieże", "object");
+        dictionary.Add("wieży", "Stereo"); type.Add("wieży", "object");
+        dictionary.Add("otwórz", "on"); type.Add("otwórz", "action");
+        dictionary.Add("zamknij", "off"); type.Add("zamknij", "action");
+        dictionary.Add("lodówki", "Fridge"); type.Add("lodówki", "object");
+        dictionary.Add("lodówkę", "Fridge"); type.Add("lodówkę", "object");
+        dictionary.Add("światło", "light"); type.Add("światło", "object");
+        dictionary.Add("szafy", "Wardrobe"); type.Add("szafy", "object");
+        dictionary.Add("szafę", "Wardrobe"); type.Add("szafę", "object");
+        dictionary.Add("sprawdź", "check"); type.Add("sprawdź", "action");
+    }
+    void FalseAdd()
+    {
+        False.Add("Bath");
+        //False.Add("Lampa1");
+        False.Add("Washbasin");
+        False.Add("Wardrobe");
+        False.Add("TV");
+        False.Add("Stereo");
+        False.Add("Lampa-Korytarz");
+        False.Add("Lampa-Salon");
+        False.Add("Lampa-Kuchnia");
+        False.Add("Lampa-Łazienka");
+        False.Add("Lampa-Sypialnia");
+        False.Add("Bed");
+        False.Add("Cooker");
+        False.Add("Toilet");
+        False.Add("WashMachine");
+        False.Add("Fridge");
+    }
+    string Action()
+    {
+        if(turn == "")
+        {
+            return "do";
+        }
+        else
+        {
+            if (lista.First() == "Lampa-Sypialnia" || lista.First() == "Lampa-Kuchnia" ||
+    lista.First() == "Lampa-Salon" || lista.First() == "Lampa-Łazienka" || lista.First() == "Lampa-Korytarz")
+            {
+                if (turn == "on")
+                {
+                    return "zapalić";
+                }
+                else
+                {
+                    return "zgasić";
+                }
+            }
+            else
+            {
+                if (lista.First() == "Bed")
+                {
+                    if (turn == "on")
+                    {
+                        return "pościelić";
+                    }
+                    else
+                    {
+                        return "rozścielić";
+                    }
+                }
+                else
+                {
+                    if (lista.First() == "Bath")
+                    {
+                        if (turn == "on")
+                        {
+                            return "napełnić";
+                        }
+                        else
+                        {
+                            return "opróżnić";
+                        }
+                    }
+                    else
+                    {
+                        if (lista.First() == "Wardrobe" || lista.First() == "Fridge" )
+                        {
+                            if (turn == "on")
+                            {
+                                return "otworzyć";
+                            }
+                            else
+                            {
+                                return "zamknąć";
+                            }
+                        }
+                        else
+                        {
+                            if (turn == "on")
+                            {
+                                return "właczyć";
+                            }
+                            else
+                            {
+                                return "wyłączyć";
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+    string Object()
+    {
+        if (lista.First() == "Lampa-Sypialnia" || lista.First() == "Lampa-Kuchnia" ||
+            lista.First() == "Lampa-Salon" || lista.First() == "Lampa-Łazienka" || lista.First() == "Lampa-Korytarz")
+        {
+            if(turn == "")
+            {
+                return "lampy";
+            }
+            else
+            {
+                return "lampę";
+            }
+        }
+        else
+        {
+            if (lista.First() == "Fridge")
+            {
+                if (turn == "")
+                {
+                    return "lodówki";
+                }
+                else
+                {
+                    return "lodówkę";
+                }
+            }
+            else
+            {
+                if (lista.First() == "TV")
+                {
+                    if (turn == "")
+                    {
+                        return "telewizora";
+                    }
+                    else
+                    {
+                        return "telewizor";
+                    }
+                }
+                else
+                {
+                    if (lista.First() == "Bath")
+                    {
+                        if (turn == "")
+                        {
+                            return "wanny";
+                        }
+                        else
+                        {
+                            return "wannę";
+                        }
+                    }
+                    else
+                    {
+                        if (lista.First() == "Cooker")
+                        {
+                            if (turn == "")
+                            {
+                                return "piekarnika";
+                            }
+                            else
+                            {
+                                return "piekarnik";
+                            }
+                        }
+                        else
+                        {
+                            if (lista.First() == "Bed")
+                            {
+                                if (turn == "")
+                                {
+                                    return "łóżka";
+                                }
+                                else
+                                {
+                                    return "łóżko";
+                                }
+                            }
+                            else
+                            {
+                                if (lista.First() == "Stereo")
+                                {
+                                    if (turn == "")
+                                    {
+                                        return "wieży";
+                                    }
+                                    else
+                                    {
+                                        return "wieże";
+                                    }
+                                }
+                                else
+                                {
+                                    if (lista.First() == "WashMachine")
+                                    {
+                                        if (turn == "")
+                                        {
+                                            return "pralki";
+                                        }
+                                        else
+                                        {
+                                            return "pralkę";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (lista.First() == "Wardrobe")
+                                        {
+                                            if (turn == "")
+                                            {
+                                                return "szafy";
+                                            }
+                                            else
+                                            {
+                                                return "szafę";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if(lista.First() == "kitchen")
+                                            {
+                                                return "kuchni";
+                                            }
+                                            else
+                                            {
+                                                if (lista.First()  == "corridor")
+                                                {
+                                                    return "korytarz";
+                                                }
+                                                else
+                                                {
+                                                    if (lista.First() == "dinnerroom")
+                                                    {
+                                                        return "salonu";
+                                                    }
+                                                    else
+                                                    {
+                                                        if (lista.First() == "bathroom")
+                                                        {
+                                                            return "łazienki";
+                                                        }
+                                                        else
+                                                        {
+                                                            if (lista.First() == "bedroom")
+                                                            {
+                                                                return "sypialni";
+                                                            }
+                                                            else
+                                                            {
+                                                                return "error";
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+   void Change()
     {
         if (False.Contains(lista.First()))
         {
@@ -262,59 +559,16 @@ public class PlayerController : MonoBehaviour
     {
                move2(lista.First());                 
     }
-    void FixedUpdate()
+   void Comment()
     {
-        /*float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(movement * speed);*/
-      
-        if(i>0 && KnowWhatToDo)
+        if (KnowWhatToDo)
         {
-                Do();
+
+                WinText.text = "Jadę " + Action() + " " + Object();
         }
         else
         {
-            if (i > 0)
-            {
-                WhatToDo();
-            }
-            else
-            {            
-             if (Input.GetKeyUp(KeyCode.Return))
-                {
-                    //wprowadza do dziennika wszystkie zadania do wykonania
-                    toDiary();
-                }
-            }
-        }
-
-        // Tu są dodatkowe ficzery - kamera z pierwszej osoby i latarka pod F1 i F2
-        if (Input.GetKeyUp(KeyCode.F2))
-        {
-            if (GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled.Equals(true))
-            {
-                WinText.text = "";
-                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = false;
-            }
-            else
-            {
-                WinText.text = "";
-                GameObject.FindGameObjectWithTag("Eye2").GetComponent<Light>().enabled = true;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            if (GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled.Equals(true))
-            {
-                WinText.text = "";
-                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = false;
-            }
-            else
-            {
-                WinText.text = "";
-                GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
-            }
+            WinText.text = "Nie rozumiem.";
         }
     }
     void RandomSound()
@@ -556,7 +810,27 @@ public class PlayerController : MonoBehaviour
                         other.gameObject.GetComponent<Light>().enabled = false;
                         licznikTV = false;
                     }
-                Change();
+                    Change();
+                }
+                KnowWhatToDo = false;
+                turn = "";
+                i = i - 1;
+            }
+            if (other.gameObject.CompareTag("Fridge"))
+            {
+                if (turn != "")
+                {
+                    if (False.Contains("Fridge"))
+                    {
+                        fridge_o.gameObject.SetActive(true);
+                        fridge_c.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        fridge_o.gameObject.SetActive(false);
+                        fridge_c.gameObject.SetActive(true);
+                    }
+                    Change();
                 }
                 KnowWhatToDo = false;
                 turn = "";
@@ -948,10 +1222,10 @@ public class PlayerController : MonoBehaviour
 		
 			if(pomieszczenie.Equals("pokoj dzienny"))
 				{
-					Vector3 direction2 = fridge.transform.position - transform.position;
-					if(Vector3.Magnitude(direction2) > 1)
+				//	Vector3 direction2 = fridge.transform.position - transform.position;
+					//if(Vector3.Magnitude(direction2) > 1)
 			   		{
-						rb.AddForceAtPosition(direction2*3, fridge.transform.position);
+					//	rb.AddForceAtPosition(direction2*3, fridge.transform.position);
 					}
 				}
 
