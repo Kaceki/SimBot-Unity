@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public GameObject sound, sound2, sound3, sound4, sound5, sound6, stereo, cooker, washmachine,
         Woda_kran, Woda, koldra_t, koldra_n, woda_kran_lazienka, tv, Stereo, screen,
         lamp1, bath, Wardrobe_p, Wardrobe_l, tap, pokoj_dzienny, lazienka_wejscie,
-        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge_o, fridge_c, Bed;
+        lazienka_wyjscie, sypialnia_wejscie, sypialnia_wyjscie, fridge_o, fridge_c, Bed, CloudText;
     public Button button;
     public Dictionary<string, string> dictionary, type;
     public List<string> lista;
@@ -130,6 +130,16 @@ public class PlayerController : MonoBehaviour
                 WinText.text = "";
                 GameObject.FindGameObjectWithTag("Eye").GetComponent<Camera>().enabled = true;
             }
+        }
+
+
+        if (WinText.text == "")
+        {
+            CloudText.SetActive(false);
+        }
+        else
+        {
+            CloudText.SetActive(true);
         }
     }
     void WhatToDo()
