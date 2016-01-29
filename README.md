@@ -5,7 +5,7 @@
 
 ##Nazwa projektu: SimBot
 
-Skład zespołu:
+Skład zespołu: </br>
 •	Paweł Łukasik
 •	Michał Szczepanowski
 •	Adam Kulczycki
