@@ -20,7 +20,7 @@ Potrafi on rozpoznać następujące polecenia: </br>
 •	Idź do <pomieszczenie>  </br>
 •	Włącz <urządzenie>/muzykę </br>
 •	Oraz inne polecenia, które wydalibyśmy mu aby aktywować obiekty. </br> </br>
-Robot potrafi wykonać kilka poleceń naraz, jednakże kolejne polecenia muszą być połączone „i”, „ , ” lub „oraz” np.: Idź do kuchni i włącz światło. </br>
+Robot potrafi wykonać kilka poleceń naraz, jednakże kolejne polecenia muszą być połączone „i”, „ , ” lub „oraz” np.: Idź do kuchni i włącz światło. </br></br>
 Obiekty, które możemy aktywować to: </br>
 •	Szafa </br>
 •	Łóżko (Pościel łóżko) </br>
@@ -33,26 +33,25 @@ Obiekty, które możemy aktywować to: </br>
 •	Oraz wieża muzyczna (pod komendą włącz muzykę) </br>
 •	Światło </br>
 •	Napełnianie/opróżnianie wanny </br> </br>
-To co udało nam się osiągnąć to efekt wspólnej pracy, której rozkład wygląda następująco: </br>
+To co udało nam się osiągnąć to efekt wspólnej pracy, której rozkład wygląda następująco: </br></br>
 Paweł Łukasik: </br>
 •	Rozpoznawanie mowy (własny sposób, nie wykorzystujemy aimla) </br>
 •	Ułożenie przedmiotów, dekoracja </br>
 •	Dźwięki </br>
 •	Poprawy do ruchu postaci </br>
-•	Nauka C# oraz Unity od podstaw </br>
+•	Nauka C# oraz Unity od podstaw </br></br>
 Adam Kulczycki: </br>
 •	„kształty” przedmiotów </br>
 •	Rozpoznawanie mowy (budowa słownika) </br>
 •	Dekoracje mieszkania </br>
 •	Poprawy do ruchu postaci </br>
-•	Nauka C# oraz Unity od podstaw </br>
+•	Nauka C# oraz Unity od podstaw </br></br>
 Michał Szczepanowski: </br>
 •	Dekoracje mieszkania </br>
 •	Rampy – debug nieodjeżdzania od elementów </br>
 •	Menu start, menu pause </br>
 •	Poprawki do ruchu postaci pomiędzy obiektami. </br>
-•	Nauka C# oraz Unity od podstaw </br>
- 
+•	Nauka C# oraz Unity od podstaw </br></br>
 Paweł Urbaniak: </br>
 •	Ogólny zarys mieszkania </br>
 •	Ogólny zarys aplikacji </br>
